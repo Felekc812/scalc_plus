@@ -145,7 +145,7 @@ class calk {
         priority_pars = 0;
         num_pars = std::stof(buf, &size_step_m);
         std::cout << num_pars << " num \n";
-        // std::cout << size_step_m << "sx \n";
+        std::cout << size_step_m << "sx \n";
       } else {
         for (auto &t : tokens) {
           if (strncmp(buf, t.c_str(), t.size()) == 0) {
@@ -156,26 +156,24 @@ class calk {
           }
         }
       }
-
+      clear_end_array(buf, size_step, size_step_m);
       push_back(priority_pars, num_pars, sign_pars);
-      // std::cout << size_step << " -- size_step\n";
-      // std::cout << size_step_m << "  -- size_step_m\n\n";
-      //  std::cout << strlen(hello.c_str()) - size_step_m + 2 <<
-      //"jacor\n";
-      printf("%ld\n", size_step - size_step_m);
-      if (size_step - size_step_m > 0) {
-        for (size_t i = 0; i < size_step - size_step_m; i++) {
-          buf[i] = buf[i + size_step_m];
-          printf("-  %ld       %ld     %ld\n", i, i + size_step_m, size_step);
-          // printf("z  %d       %d     %d\n", buf[i], buf[i + size_step_m],
-          //      buf[size_step]);
-        }
-        size_step = size_step - size_step_m;
-      }
-    }
+      printf("%ld      %ld       %ld\n", size_step, size_step_m,
+             size_step - size_step_m);
 
-    // std::cout << *((char *)buf + 5) << "iol\n";
-    //
+      size_step = size_step - size_step_m;
+      printf("----------------\n");
+    }
+  }
+  void clear_end_array(char *buf, size_t size_step, size_t size_step_m) {
+    for (size_t i = 0; i < size_step - size_step_m; ++i) {
+      buf[i] = buf[i + size_step_m];
+      printf(" %c  \n", buf[i]);
+      printf("-  %ld       %ld     %ld\n", i, i + size_step_m, size_step);
+    }
+    for (size_t i = size_step_m; i < size_step; ++i) {
+      buf[i] = 0;
+    }
   };
   ~calk() { clear(); };
 };
@@ -187,7 +185,7 @@ calk::~calk() {}
 }  // namespace S21
 
 int main() {
-  std::string hello = "636+21";
+  std::string hello = "636+3";
   // const char *c_inp = hello.c_str();
   //  int res = atoi(c_inp);
   // char c_inp2 = c_inp;
