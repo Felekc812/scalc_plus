@@ -13,13 +13,14 @@ class calk {
   class Node {
    public:
     Node *Next, *Prev;
-    float num;
+    double num;
     std::string sign;
     int priority;
 
-    Node(int priority = int(), float num = float(),
+    Node(int priority = int(), double num = double(),
          std::string sign = std::string(), Node *Next = nullptr,
          Node *Prev = nullptr) {
+      this->priority = priority;
       this->num = num;
       this->sign = sign;
       this->Next = Next;
@@ -35,7 +36,7 @@ class calk {
   Node *head;
   size_t Size;
 
-  int num_priority(std::string t, size_t *size_tokens) {
+  int num_priority(std::string t) {
     int rezalt = 0;
     static const std::string num_1_priority[] = {"(", ")"};
     static const std::string num_2_priority[] = {"+", "-"};
@@ -47,39 +48,41 @@ class calk {
     for (auto &t1 : num_1_priority) {
       if (t == t1) {
         rezalt = 1;
-        *size_tokens = t.size();
-        // std::cout << t.size() << "znch \n";
       }
     }
     for (auto &t2 : num_2_priority) {
       if (t == t2) {
         rezalt = 2;
-        *size_tokens = t.size();
-        // std::cout << t.size() << "znch \n";
       }
     }
     for (auto &t3 : num_3_priority) {
       if (t == t3) {
         rezalt = 3;
-        *size_tokens = t.size();
-        // std::cout << t.size() << "znch \n";
       }
     }
     for (auto &t4 : num_4_priority) {
       if (t == t4) {
         rezalt = 4;
-        *size_tokens = t.size();
-        // std::cout << t.size() << "znch \n";
       }
     }
     for (auto &t5 : num_5_priority) {
       if (t == t5) {
         rezalt = 5;
-        *size_tokens = t.size();
-        // std::cout << t.size() << "znch \n";
       }
     }
     return rezalt;
+  };
+
+  void clear_end_array(char *buf, size_t size_step, size_t size_step_m) {
+    for (size_t i = 0; i < size_step - size_step_m; ++i) {
+      buf[i] = buf[i + size_step_m];
+      // printf("buf %c  \n", buf[i]);
+      // printf("-  i %ld       i + size_step_m %ld     size_step %ld\n", i,
+      //      i + size_step_m, size_step);
+    }
+    for (size_t i = size_step - size_step_m; i < size_step; ++i) {
+      buf[i] = 0;
+    }
   };
 
  public:
@@ -91,6 +94,15 @@ class calk {
   void recognition(){};
   void in_Polish(){};
   void calculation(){};
+
+  void print_list() {
+    Node *current = head;
+    while (current != nullptr) {
+      printf("priir %d      num %f     ", current->priority, current->num);
+      std::cout << current->sign << "  znch \n";
+      current = current->Next;
+    }
+  };
   void clear() {
     while (Size + 1) {
       Node *temp = head;
@@ -103,19 +115,26 @@ class calk {
     }
   };
 
-  void push_back(int priority_pars, int num_pars, std::string sign_pars) {
-    head->priority = 1 + Size;
-    if (head == nullptr) {
-      head = new Node(priority_pars, num_pars, sign_pars);
-    } else {
-      Node *current = this->head;
-      while (current->Next != nullptr) {
-        current = current->Next;
-      }
+  void push_back(int priority_pars, double num_pars, std::string sign_pars) {
+    // std::cout << priority_pars << "  priority_pars ";
+    // std::cout << num_pars << "  num_pars ";
+    // std::cout << sign_pars << "  sign_pars \n";
 
-      current->Next = new Node(priority_pars, num_pars, sign_pars);
-      current->Next->Prev = current;
+    head->priority = 1 + Size;
+    // if (head == nullptr) {
+    //   head = new Node(priority_pars, num_pars, sign_pars);
+    //   printf(">>>%d\n", head->priority);
+    // } else {
+    Node *current = this->head;
+    while (current->Next != nullptr) {
+      current = current->Next;
     }
+    // printf(">>>%d   %f\n", priority_pars, num_pars);
+    current->Next = new Node(priority_pars, num_pars, sign_pars);
+    // printf(">>>%d   %f   ", current->Next->priority, current->Next->num);
+    // std::cout << current->Next->sign << "  sign_pars \n\n";
+    current->Next->Prev = current;
+    //}
     ++Size;
   };
 
@@ -128,15 +147,15 @@ class calk {
 
   calk(std::string hello) : calk() {
     int priority_pars;
-    float num_pars;
+    double num_pars;
     std::string sign_pars;
 
     size_t size_step = strlen(hello.c_str());
     char buf[strlen(hello.c_str()) + 2];
     strcpy(buf, hello.c_str());
     static const std::string tokens[] = {
-        "+",   "-",    "*",    "/",  "mod", "sin", "cos", "asin", "acos",
-        "tan", "atan", "sqrt", "ln", "log", "(",   ")",   "^"};
+        "(",   ")",    "+",    "-",   "*",    "/",    "mod", "^",  "sin",
+        "cos", "asin", "acos", "tan", "atan", "sqrt", "ln",  "log"};
     // int a = 0;
     while (size_step) {
       size_t size_step_m = 0;
@@ -144,37 +163,31 @@ class calk {
         sign_pars = "null";
         priority_pars = 0;
         num_pars = std::stof(buf, &size_step_m);
-        std::cout << num_pars << " num \n";
-        std::cout << size_step_m << "sx \n";
+        // std::cout << num_pars << " num \n";
+        //  std::cout << size_step_m << "sx \n";
       } else {
         for (auto &t : tokens) {
           if (strncmp(buf, t.c_str(), t.size()) == 0) {
             num_pars = 0;
-            priority_pars = num_priority(t, &size_step_m);
+            size_step_m = t.size();
+            priority_pars = num_priority(t);
             sign_pars = t;
-            std::cout << sign_pars << "  znch \n";
+            //  std::cout << sign_pars << "  znch \n";
           }
         }
       }
-      clear_end_array(buf, size_step, size_step_m);
       push_back(priority_pars, num_pars, sign_pars);
-      printf("%ld      %ld       %ld\n", size_step, size_step_m,
-             size_step - size_step_m);
+      clear_end_array(buf, size_step, size_step_m);
+
+      // printf("size_step %ld      size_step_m %ld  \n", size_step,
+      // size_step_m);
 
       size_step = size_step - size_step_m;
-      printf("----------------\n");
+      // printf("----------------\n\n");
+      //  a++;
     }
   }
-  void clear_end_array(char *buf, size_t size_step, size_t size_step_m) {
-    for (size_t i = 0; i < size_step - size_step_m; ++i) {
-      buf[i] = buf[i + size_step_m];
-      printf(" %c  \n", buf[i]);
-      printf("-  %ld       %ld     %ld\n", i, i + size_step_m, size_step);
-    }
-    for (size_t i = size_step_m; i < size_step; ++i) {
-      buf[i] = 0;
-    }
-  };
+
   ~calk() { clear(); };
 };
 /*
@@ -185,16 +198,14 @@ calk::~calk() {}
 }  // namespace S21
 
 int main() {
-  std::string hello = "636+3";
-  // const char *c_inp = hello.c_str();
-  //  int res = atoi(c_inp);
-  // char c_inp2 = c_inp;
-
-  // char *c_inp = "(2+3)-1*67";
-
+  std::string hello = "69.666+39+cos5+(8+sin88)";
   S21::calk u1(hello);
+  u1.print_list();
+  printf("----------------------\n");
 
-  // std::cout << hello << "\n";
+  // std::string hello1 = "69.666+39+cos5++(8+sin88)+tan88+3^6+89";
+  // S21::calk u2(hello1);
+  // u2.print_list();
 
   return 0;
 }
