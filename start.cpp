@@ -84,6 +84,31 @@ class calk {
       buf[i] = 0;
     }
   };
+  int back_priority() {
+    Node *temp = head;
+    while (temp->Next != nullptr) {
+      temp = temp->Next;
+    }
+    return temp->priority;
+  }
+  std::string back_sign() {
+    Node *temp = head;
+    while (temp->Next != nullptr) {
+      temp = temp->Next;
+    }
+    return temp->sign;
+  }
+
+  void pop_back() {
+    Node *temp = head;
+    while (temp->Next->Next != nullptr) {
+      temp = temp->Next;
+    }
+    Node *temp_del = temp->Next;
+    delete temp_del;
+    temp->Next = nullptr;
+    --Size;
+  }
 
  public:
   void corrector(){};
@@ -92,7 +117,43 @@ class calk {
     std::cout << hello << "\n";
   };
   void recognition(){};
-  void in_Polish(){};
+
+  void in_polish() {
+    calk temp;
+    calk buf_sig;
+    Node *current = head->Next;
+    while (current != nullptr) {
+      printf(">>>>> %d     %d\n", current->priority, buf_sig.back_priority());
+      ///
+      if (current->priority == 0) {
+        temp.push_back(current->priority, current->num, current->sign);
+      } else if (current->priority != 0 &&
+                 current->priority >= buf_sig.back_priority()) {
+        buf_sig.push_back(current->priority, current->num, current->sign);
+      } else {
+        printf("zacoc\n");
+        //
+        while (buf_sig.Size != 0) {
+          temp.push_back(buf_sig.back_priority(), 0, buf_sig.back_sign());
+          buf_sig.pop_back();
+        }
+        //
+        buf_sig.push_back(current->priority, current->num, current->sign);
+      }
+
+      current = current->Next;
+    }
+    //
+    while (buf_sig.Size != 0) {
+      temp.push_back(buf_sig.back_priority(), 0, buf_sig.back_sign());
+      buf_sig.pop_back();
+    }
+    //
+    printf("temp\n");
+    temp.print_list();
+    printf("buf_temp\n");
+    buf_sig.print_list();
+  };
   void calculation(){};
 
   void print_list() {
@@ -198,10 +259,11 @@ calk::~calk() {}
 }  // namespace S21
 
 int main() {
-  std::string hello = "69.666+39+cos5+(8+sin88)";
+  std::string hello = "9*8+6-cos5";
   S21::calk u1(hello);
   u1.print_list();
   printf("----------------------\n");
+  u1.in_polish();
 
   // std::string hello1 = "69.666+39+cos5++(8+sin88)+tan88+3^6+89";
   // S21::calk u2(hello1);
