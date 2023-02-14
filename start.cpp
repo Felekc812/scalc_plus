@@ -123,37 +123,66 @@ class calk {
     calk buf_sig;
     Node *current = head->Next;
     while (current != nullptr) {
-      printf(">>>>> %d     %d\n", current->priority, buf_sig.back_priority());
-      ///
       if (current->priority == 0) {
         temp.push_back(current->priority, current->num, current->sign);
       } else if (current->priority != 0 &&
                  current->priority >= buf_sig.back_priority()) {
         buf_sig.push_back(current->priority, current->num, current->sign);
       } else {
-        printf("zacoc\n");
-        //
         while (buf_sig.Size != 0) {
           temp.push_back(buf_sig.back_priority(), 0, buf_sig.back_sign());
           buf_sig.pop_back();
         }
-        //
         buf_sig.push_back(current->priority, current->num, current->sign);
       }
 
       current = current->Next;
     }
-    //
     while (buf_sig.Size != 0) {
       temp.push_back(buf_sig.back_priority(), 0, buf_sig.back_sign());
       buf_sig.pop_back();
     }
-    //
     printf("temp\n");
-    temp.print_list();
+    // temp.print_list();
     printf("buf_temp\n");
-    buf_sig.print_list();
+    // buf_sig.print_list();
+    /////////
+    buf_sig.clear();
+    coop(temp);
+    printf("coop+  %ld\n", Size);
   };
+  void coop(calk temp) {
+    temp.print_list();
+    Node *previous_temp = temp.head;
+    Node *previous_head = head;
+    // clear();
+    for (int i = 0; i < temp.Size + 1; i++) {
+      previous_head->priority = previous_temp->priority;
+      previous_head->num = previous_temp->num;
+      previous_head->sign = previous_temp->sign;
+      previous_head = previous_head->Next;
+      previous_temp = previous_temp->Next;
+        }
+    print_list();
+    //
+    printf("coop+  %ld  %ld\n", Size, temp.Size);
+    temp.clear();
+    printf("coop\n");
+  };
+
+  void pop_front() {
+    Node *temp_del = head->Next;
+    if (temp_del->Next != nullptr) {
+      head->Next = temp_del->Next;
+      temp_del->Next->Prev = head;
+    } else {
+      head->Next = nullptr;
+    }
+    delete temp_del;
+    --head->priority;
+    --Size;
+  };
+
   void calculation(){};
 
   void print_list() {
@@ -205,7 +234,15 @@ class calk {
     head->Prev = nullptr;
     head->Next = nullptr;
   }
-
+  /*
+    calk(const calk &l) : calk() {
+      Node *previous = l.head->Next;
+      for (int i = 0; i < l.Size; i++) {
+        push_back(previous->priority, previous->num, previous->sign);
+        previous = previous->Next;
+      }
+    }
+  */
   calk(std::string hello) : calk() {
     int priority_pars;
     double num_pars;
@@ -264,6 +301,7 @@ int main() {
   u1.print_list();
   printf("----------------------\n");
   u1.in_polish();
+  //  u1.print_list();
 
   // std::string hello1 = "69.666+39+cos5++(8+sin88)+tan88+3^6+89";
   // S21::calk u2(hello1);
