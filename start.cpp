@@ -34,7 +34,7 @@ class calk {
     */
   };
   Node *head;
-  size_t Size;
+  int Size;
 
   int num_priority(std::string t) {
     int rezalt = 0;
@@ -142,17 +142,21 @@ class calk {
       temp.push_back(buf_sig.back_priority(), 0, buf_sig.back_sign());
       buf_sig.pop_back();
     }
-    printf("temp\n");
+    // printf("temp\n");
     // temp.print_list();
-    printf("buf_temp\n");
+    // printf("buf_temp\n");
     // buf_sig.print_list();
     /////////
     buf_sig.clear();
     coop(temp);
-    printf("coop+  %ld\n", Size);
+
+    // temp.Size = -1;
+
+    // printf("152 str  %d\n", temp.Size);
+    // printf("coop+  %d\n", Size);
   };
   void coop(calk temp) {
-    temp.print_list();
+    // temp.print_list();
     Node *previous_temp = temp.head;
     Node *previous_head = head;
     // clear();
@@ -162,12 +166,14 @@ class calk {
       previous_head->sign = previous_temp->sign;
       previous_head = previous_head->Next;
       previous_temp = previous_temp->Next;
-        }
-    print_list();
+    }
+    // print_list();
     //
-    printf("coop+  %ld  %ld\n", Size, temp.Size);
-    temp.clear();
-    printf("coop\n");
+    // printf("coop+  %d  %d\n", Size, temp.Size);
+    //  temp.clear();
+    // printf("172 str  %d\n", temp.Size);
+    // printf("coop\n");
+    temp.Size = -1;
   };
 
   void pop_front() {
@@ -194,7 +200,8 @@ class calk {
     }
   };
   void clear() {
-    while (Size + 1) {
+    while (Size + 1 > 0) {
+      // printf("cler  %d\n", Size);
       Node *temp = head;
       head = head->Next;
       if (head != nullptr) {
@@ -301,7 +308,9 @@ int main() {
   u1.print_list();
   printf("----------------------\n");
   u1.in_polish();
-  //  u1.print_list();
+  printf(">----------------------\n");
+  u1.print_list();
+  printf("----------------------<\n");
 
   // std::string hello1 = "69.666+39+cos5++(8+sin88)+tan88+3^6+89";
   // S21::calk u2(hello1);
