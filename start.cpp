@@ -189,7 +189,32 @@ class calk {
     --Size;
   };
 
-  void calculation(){};
+  void calculation() {
+    Node *current = head;
+    while (current->Next != nullptr) {
+      if (current->priority <= current->Next->priority) {
+        if (current->Prev->Prev != nullptr) {
+          func_calculation(current->Prev->Prev->num, current->Prev->num,
+                           current->sign);
+        } else {
+          func_calculation(0, current->Prev->num, current->sign);
+        }
+      }
+      current = current->Next;
+    }
+  };
+
+  void func_calculation(int a, double b, std::string sign_pars) {
+    static const std::string tokens[] = {
+        "(",   ")",    "+",    "-",   "*",    "/",    "mod", "^",  "sin",
+        "cos", "asin", "acos", "tan", "atan", "sqrt", "ln",  "log"};
+    //
+    for (auto &t1 : tokens) {
+      if (t1.compare(sign_pars) == 0) {
+        cos();
+      };
+    }
+  }
 
   void print_list() {
     Node *current = head;
