@@ -25,8 +25,7 @@ int main() {
     std::cin >> a >> b;
     std::cout << "Enter operator: ";
     std::cin >> input;
-    std::cout << "Result: " << a << ' ' << input << ' ' << b << " = "
-              << binary_operators.at(input)(a, b);
+    std::cout << binary_operators.at(input)(a, b);
   } else {
     double x;
     std::cout << "Enter x: ";

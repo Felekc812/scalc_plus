@@ -1,8 +1,10 @@
 #include <ctype.h>
+#include <math.h>
 #include <string.h>
 
 #include <iostream>
 #include <list>
+#include <map>
 #include <string>
 
 namespace S21 {
@@ -110,8 +112,8 @@ class calk {
     --Size;
   }
 
- public:
-  void corrector(){};
+  // public:
+
   void validator(std::string hello) {
     //
     std::cout << hello << "\n";
@@ -190,31 +192,63 @@ class calk {
   };
 
   void calculation() {
-    Node *current = head;
+    Node *current = head->Next;
     while (current->Next != nullptr) {
-      if (current->priority <= current->Next->priority) {
-        if (current->Prev->Prev != nullptr) {
-          func_calculation(current->Prev->Prev->num, current->Prev->num,
-                           current->sign);
-        } else {
-          func_calculation(0, current->Prev->num, current->sign);
+      std::cout << "*********************\n";
+      if (current->priority >= current->Next->priority &&
+          current->priority != 0) {
+        std::cout << current->sign << "  " << current->Prev->Prev->num << "  "
+                  << current->Prev->num << "\n";
+        current->num = binary_operators.at(current->sign)(
+            current->Prev->Prev->num, current->Prev->num);
+        current->sign = "null";
+        std::cout << current->Prev->num << "\n";
+        if (current->priority < 5) {
+          pop_this(current->Prev->Prev);
         }
+        pop_this(current->Prev);
+        current->priority = 0;
+        print_list();
+        // current = current->Next;
       }
       current = current->Next;
     }
+    std::cout << current->sign << "  " << current->Prev->Prev->num << "  "
+              << current->Prev->num << "\n";
+    current->num = binary_operators.at(current->sign)(current->Prev->Prev->num,
+                                                      current->Prev->num);
+    current->sign = "null";
+    current->priority = 0;
+    std::cout << "reza\n";
+    print_list();
   };
 
-  void func_calculation(int a, double b, std::string sign_pars) {
-    static const std::string tokens[] = {
-        "(",   ")",    "+",    "-",   "*",    "/",    "mod", "^",  "sin",
-        "cos", "asin", "acos", "tan", "atan", "sqrt", "ln",  "log"};
-    //
-    for (auto &t1 : tokens) {
-      if (t1.compare(sign_pars) == 0) {
-        cos();
-      };
-    }
-  }
+  void pop_this(Node *current) {
+    std::cout << "pop << " << current->priority << "\n";
+    Node *del = current;
+    current->Prev->Next = current->Next;
+    current->Next->Prev = current->Prev;
+    delete del;
+    --Size;
+  };
+
+  std::map<std::string, double (*)(double, double)> binary_operators{
+      {"+", [](double v1, double v2) -> double { return v1 + v2; }},
+      {"-", [](double v1, double v2) -> double { return v1 - v2; }},
+      {"*", [](double v1, double v2) -> double { return v1 * v2; }},
+      {"/", [](double v1, double v2) -> double { return v1 / v2; }},
+      {"^", [](double v1, double v2) -> double { return pow(v1, v2); }},
+      {"mod", [](double v1, double v2) -> double { return fmod(v1, v2); }},
+      {"sin", [](double v1, double v2) -> double { return sin(v2); }},
+      {"cos", [](double v1, double v2) -> double { return cos(v2); }},
+      {"asin", [](double v1, double v2) -> double { return asin(v2); }},
+      {"acos", [](double v1, double v2) -> double { return acos(v2); }},
+      {"tan", [](double v1, double v2) -> double { return tan(v2); }},
+      {"atan", [](double v1, double v2) -> double { return atan(v2); }},
+      {"sqrt", [](double v1, double v2) -> double { return sqrt(v2); }},
+      {"ln", [](double v1, double v2) -> double { return log(v2); }},
+      {"log", [](double v1, double v2) -> double { return log10(v2); }},
+  };
 
   void print_list() {
     Node *current = head;
@@ -260,21 +294,22 @@ class calk {
     ++Size;
   };
 
+ public:
+  double rezalt() {
+    in_polish();
+    calculation();
+    Node *temp = head;
+    while (temp->Next != nullptr) {
+      temp = temp->Next;
+    }
+    return temp->num;
+  }
   calk() {
     Size = 0;
-    head = new Node(0);
+    head = new Node(0, 0, "null");
     head->Prev = nullptr;
     head->Next = nullptr;
   }
-  /*
-    calk(const calk &l) : calk() {
-      Node *previous = l.head->Next;
-      for (int i = 0; i < l.Size; i++) {
-        push_back(previous->priority, previous->num, previous->sign);
-        previous = previous->Next;
-      }
-    }
-  */
   calk(std::string hello) : calk() {
     int priority_pars;
     double num_pars;
@@ -320,26 +355,12 @@ class calk {
 
   ~calk() { clear(); };
 };
-/*
-calk::calk() {}
 
-calk::~calk() {}
-*/
 }  // namespace S21
 
 int main() {
-  std::string hello = "9*8+6-cos5";
-  S21::calk u1(hello);
-  u1.print_list();
-  printf("----------------------\n");
-  u1.in_polish();
-  printf(">----------------------\n");
-  u1.print_list();
-  printf("----------------------<\n");
-
-  // std::string hello1 = "69.666+39+cos5++(8+sin88)+tan88+3^6+89";
-  // S21::calk u2(hello1);
-  // u2.print_list();
+  S21::calk u1("9*8+6-cos5");
+  std::cout << u1.rezalt() << "  rezalt \n";
 
   return 0;
 }
