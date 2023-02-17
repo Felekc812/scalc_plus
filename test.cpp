@@ -1,54 +1,18 @@
-#include <ctype.h>
-#include <string.h>
-
-#include <functional>
 #include <iostream>
-#include <list>
-#include <string>
-
-void sum() { printf("++++++\n"); };
-void raz() { printf("----\n"); };
-void cos() { printf("cos\n"); };
-void del() { printf("////\n"); };
-void mod() { printf("mod\n"); };
-void step() { printf("^^^^\n"); };
-void sin() { printf("sin\n"); };
-void mult() { printf("mult\n"); };
+using namespace std;
 
 int main() {
-  std::string hellou = "-";
-  /*
-  static const std::string tokens[] = {
-      "(",   ")",    "+",    "-",   "*",    "/",    "mod", "^",  "sin",
-      "cos", "asin", "acos", "tan", "atan", "sqrt", "ln",  "log"};
-*/
-  // for (auto &t1 : tokens) {
-  if (hellou.compare("cos") == 0) {
-    cos();
-  };
-  if (hellou.compare("+") == 0) {
-    sum();
-  };
-  if (hellou.compare("-") == 0) {
-    raz();
-  };
-  if (hellou.compare("/") == 0) {
-    del();
-  };
-  if (hellou.compare("*") == 0) {
-    mult();
-  };
-  if (hellou.compare("mod") == 0) {
-    mod();
-  };
-  if (hellou.compare("^") == 0) {
-    step();
-  };
-  if (hellou.compare("sin") == 0) {
-    sin();
-  };
-  //...........
-  //}
+  string str_inp1("Python");
+  string str_inp2("Python");
 
-  return 0;
+  cout << "String 1:" << str_inp1 << endl;
+  cout << "String 2:" << str_inp2 << endl;
+  int res = str_inp1.compare(str_inp2);
+
+  if (res == 0)
+    cout << "\nBoth the input strings are equal." << endl;
+  else if (res < 0)
+    cout << "String 1 is smaller as compared to String 2\n.";
+  else
+    cout << "String 1 is greater as compared to String 2\n.";
 }

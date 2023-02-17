@@ -87,6 +87,30 @@ class calk {
   };
   void recognition(){};
 
+  void funk_up_priority() {
+    int up_priority = 0;
+    Node *current = head->Next;
+    while (current != nullptr) {
+      if (current->priority == 1) {
+        // printf("!!!!!");
+        Node *temp = current->Next;
+        if (current->sign.compare("(") == 0) {
+          up_priority = up_priority + 10;
+          pop_this(current);
+        } else {
+          up_priority = up_priority - 10;
+          pop_this(current);
+        }
+        current = temp;
+      } else {
+        if (current->priority != 0) {
+          current->priority = current->priority + up_priority;
+        }
+        current = current->Next;
+      }
+    }
+  }
+
   void in_polish() {
     calk temp;
     calk buf_sig;
@@ -94,6 +118,13 @@ class calk {
     while (current != nullptr) {
       if (current->priority == 0) {
         temp.push_back(current->priority, current->num, current->sign);
+        //} else if (current->priority == 1) {
+        //  if (current->sign.compare("(") == 0) {
+        //    up_priority = up_priority + 10;
+        //  } else {
+        //    up_priority = up_priority - 10;
+        //  }
+
       } else if (current->priority != 0 &&
                  current->priority > buf_sig.back_priority()) {
         buf_sig.push_back(current->priority, current->num, current->sign);
@@ -193,8 +224,12 @@ class calk {
   void pop_this(Node *current) {
     std::cout << "pop << " << current->priority << "\n";
     Node *del = current;
-    current->Prev->Next = current->Next;
-    current->Next->Prev = current->Prev;
+    if (current->Next != 0) {
+      current->Prev->Next = current->Next;
+      current->Next->Prev = current->Prev;
+    } else {
+      current->Prev->Next = nullptr;
+    }
     delete del;
     --Size;
   };
@@ -263,8 +298,14 @@ class calk {
 
  public:
   double rezalt() {
+    std::cout << "KONSTRUKTIR\n";
+    print_list();
+
+    funk_up_priority();
+    std::cout << "UP Prioritu\n";
     print_list();
     in_polish();
+    std::cout << "POLSKAIA";
     print_list();
     calculation();
     Node *temp = head;

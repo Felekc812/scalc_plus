@@ -40,7 +40,33 @@ TEST(create_check, test6) {
   // std::cout << u1.rezalt() << "  rezalt \n";
   ASSERT_DOUBLE_EQ(u1.rezalt(), 17);
 }
+TEST(create_check, test7) {
+  S21::calk u2("5+5*2");
+  // std::cout << u1.rezalt() << "  rezalt \n";
+  ASSERT_DOUBLE_EQ(u2.rezalt(), 15);
+}
 
+TEST(create_check, test8) {
+  S21::calk u1("(5+5)*2");
+
+  // std::cout << u1.rezalt() << "  rezalt \n";
+  ASSERT_DOUBLE_EQ(u1.rezalt(), 20);
+}
+
+TEST(create_check, test9) {
+  S21::calk u1("2*(5+5)");
+
+  // std::cout << u1.rezalt() << "  rezalt \n";
+  ASSERT_DOUBLE_EQ(u1.rezalt(), 20);
+}
+/*
+TEST(create_check, test10) {
+  S21::calk u1("2*sin(5+5)+(5+2)*3");
+
+  // std::cout << u1.rezalt() << "  rezalt \n";
+  ASSERT_DOUBLE_EQ(u1.rezalt(), 19.9119577782);
+}
+*/
 int main(int argc, char *argv[]) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
