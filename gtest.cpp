@@ -29,6 +29,18 @@ TEST(create_check, test4) {
   ASSERT_DOUBLE_EQ(u1.rezalt(), 31.240244013957735);
 }
 
+TEST(create_check, test5) {
+  S21::calk u1("10*5/5*9/2");
+  // std::cout << u1.rezalt() << "  rezalt \n";
+  ASSERT_DOUBLE_EQ(u1.rezalt(), 45);
+}
+
+TEST(create_check, test6) {
+  S21::calk u1("10+5-5+9-2");
+  // std::cout << u1.rezalt() << "  rezalt \n";
+  ASSERT_DOUBLE_EQ(u1.rezalt(), 17);
+}
+
 int main(int argc, char *argv[]) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

@@ -41,43 +41,6 @@ class calk {
   Node *head;
   int Size;
 
-  int num_priority(std::string t) {
-    int rezalt = 0;
-    static const std::string num_1_priority[] = {"(", ")"};
-    static const std::string num_2_priority[] = {"+", "-"};
-    static const std::string num_3_priority[] = {"*", "/", "mod"};
-    static const std::string num_4_priority[] = {"^"};
-    static const std::string num_5_priority[] = {
-        "sin", "cos", "asin", "acos", "tan", "atan", "sqrt", "ln", "log",
-    };
-    for (auto &t1 : num_1_priority) {
-      if (t == t1) {
-        rezalt = 1;
-      }
-    }
-    for (auto &t2 : num_2_priority) {
-      if (t == t2) {
-        rezalt = 2;
-      }
-    }
-    for (auto &t3 : num_3_priority) {
-      if (t == t3) {
-        rezalt = 3;
-      }
-    }
-    for (auto &t4 : num_4_priority) {
-      if (t == t4) {
-        rezalt = 4;
-      }
-    }
-    for (auto &t5 : num_5_priority) {
-      if (t == t5) {
-        rezalt = 5;
-      }
-    }
-    return rezalt;
-  };
-
   void clear_end_array(char *buf, size_t size_step, size_t size_step_m) {
     for (size_t i = 0; i < size_step - size_step_m; ++i) {
       buf[i] = buf[i + size_step_m];
@@ -89,6 +52,7 @@ class calk {
       buf[i] = 0;
     }
   };
+
   int back_priority() {
     Node *temp = head;
     while (temp->Next != nullptr) {
@@ -131,7 +95,7 @@ class calk {
       if (current->priority == 0) {
         temp.push_back(current->priority, current->num, current->sign);
       } else if (current->priority != 0 &&
-                 current->priority >= buf_sig.back_priority()) {
+                 current->priority > buf_sig.back_priority()) {
         buf_sig.push_back(current->priority, current->num, current->sign);
       } else {
         while (buf_sig.Size != 0) {
@@ -299,7 +263,9 @@ class calk {
 
  public:
   double rezalt() {
+    print_list();
     in_polish();
+    print_list();
     calculation();
     Node *temp = head;
     while (temp->Next != nullptr) {
@@ -338,7 +304,8 @@ class calk {
           if (strncmp(buf, t.c_str(), t.size()) == 0) {
             num_pars = 0;
             size_step_m = t.size();
-            priority_pars = num_priority(t);
+            priority_pars = operation_priority.at(t)();
+            // priority_pars = num_priority(t);
             sign_pars = t;
             //  std::cout << sign_pars << "  znch \n";
           }
@@ -356,6 +323,17 @@ class calk {
     }
   }
 
+  std::map<std::string, int (*)()> operation_priority{
+      {"(", []() -> int { return 1; }},    {")", []() -> int { return 1; }},
+      {"-", []() -> int { return 2; }},    {"+", []() -> int { return 2; }},
+      {"/", []() -> int { return 3; }},    {"*", []() -> int { return 3; }},
+      {"mod", []() -> int { return 3; }},  {"^", []() -> int { return 4; }},
+      {"sin", []() -> int { return 5; }},  {"cos", []() -> int { return 5; }},
+      {"tan", []() -> int { return 5; }},  {"sqrt", []() -> int { return 5; }},
+      {"ln", []() -> int { return 5; }},   {"log", []() -> int { return 5; }},
+      {"asin", []() -> int { return 5; }}, {"acos", []() -> int { return 5; }},
+      {"atan", []() -> int { return 5; }},
+  };
   ~calk() { clear(); };
 };
 
