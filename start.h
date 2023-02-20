@@ -199,13 +199,16 @@ class calk {
                   << current->Prev->num << "\n";
         current->num = binary_operators.at(current->sign)(
             current->Prev->Prev->num, current->Prev->num);
-        current->sign = "null";
+
         std::cout << current->Prev->num << "\n";
-        if (current->priority < 5) {
+        if (operation_priority.at(current->sign)() < 5) {
+          // std::cout << current->priority << current->sign <<
+          // "&&&&&&&&&&&&&\n";
           pop_this(current->Prev->Prev);
         }
         pop_this(current->Prev);
         current->priority = 0;
+        current->sign = "null";
         print_list();
         // current = current->Next;
       }
