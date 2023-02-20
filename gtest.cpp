@@ -47,24 +47,58 @@ TEST(create_check, test7) {
 }
 
 TEST(create_check, test8) {
+  S21::calk u1("5+2^3*5");
+  // std::cout << u1.rezalt() << "  rezalt \n";
+  ASSERT_DOUBLE_EQ(u1.rezalt(), 45);
+}
+
+TEST(create_check, test9) {
+  S21::calk u1("5+cos5*5");
+  // std::cout << u1.rezalt() << "  rezalt \n";
+  ASSERT_DOUBLE_EQ(u1.rezalt(), 6.4183109273161314);
+}
+
+TEST(create_check, test10) {
   S21::calk u1("(5+5)*2");
 
   // std::cout << u1.rezalt() << "  rezalt \n";
   ASSERT_DOUBLE_EQ(u1.rezalt(), 20);
 }
 
-TEST(create_check, test9) {
+TEST(create_check, test11) {
   S21::calk u1("2*(5+5)");
 
   // std::cout << u1.rezalt() << "  rezalt \n";
   ASSERT_DOUBLE_EQ(u1.rezalt(), 20);
 }
 
-TEST(create_check, test10) {
-  S21::calk u1("2*sin(5+5)+(5+2)*3");
-
+TEST(create_check, test12) {
+  // S21::calk u1("2*sin(5+5)+(5+2)*3");
+  S21::calk u1("2*sin(5+5)");
   // std::cout << u1.rezalt() << "  rezalt \n";
-  ASSERT_DOUBLE_EQ(u1.rezalt(), 19.9119577782);
+  ASSERT_DOUBLE_EQ(u1.rezalt(), -1.0880422217787395);
+}
+
+TEST(create_check, test13) {
+  S21::calk u1("2*sin(5+5)+5");
+  // std::cout << u1.rezalt() << "  rezalt \n";
+  ASSERT_DOUBLE_EQ(u1.rezalt(), 3.9119577782212605);
+}
+TEST(create_check, test14) {
+  S21::calk u1("sin(5+5)+cos6");
+  // std::cout << u1.rezalt() << "  rezalt \n";
+  ASSERT_DOUBLE_EQ(u1.rezalt(), 0.41614917576099619);
+}
+TEST(create_check, test15) {
+  S21::calk u1("sin(5+5)+cos(5+5)");
+  // std::cout << u1.rezalt() << "  rezalt \n";
+  ASSERT_DOUBLE_EQ(u1.rezalt(), -1.3830926399658221);
+}
+
+TEST(create_check, test16) {
+  S21::calk u1("sin(5+5)-cos(5+5)");
+  // std::cout << u1.rezalt() << "  rezalt \n";
+  ASSERT_DOUBLE_EQ(u1.rezalt(), 0.29505041818708266);
 }
 
 int main(int argc, char *argv[]) {

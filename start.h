@@ -129,9 +129,14 @@ class calk {
                  current->priority > buf_sig.back_priority()) {
         buf_sig.push_back(current->priority, current->num, current->sign);
       } else {
-        while (buf_sig.Size != 0) {
+        printf("^^^   %d    %d  \n", buf_sig.back_priority(),
+               current->priority);
+        while (buf_sig.back_priority() >= current->priority &&
+               buf_sig.Size != 0) {
+          printf("%d    %d  \n", buf_sig.back_priority(), current->priority);
           temp.push_back(buf_sig.back_priority(), 0, buf_sig.back_sign());
           buf_sig.pop_back();
+          printf("SIZE %d\n", buf_sig.Size);
         }
         buf_sig.push_back(current->priority, current->num, current->sign);
       }
@@ -308,7 +313,7 @@ class calk {
     std::cout << "UP Prioritu\n";
     print_list();
     in_polish();
-    std::cout << "POLSKAIA";
+    std::cout << "POLSKAIA\n";
     print_list();
     calculation();
     Node *temp = head;
@@ -316,6 +321,7 @@ class calk {
       temp = temp->Next;
     }
     return temp->num;
+    // return 0;
   }
   calk() {
     Size = 0;
