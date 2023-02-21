@@ -308,7 +308,8 @@ class calk {
   double rezalt() {
     std::cout << "KONSTRUKTIR\n";
     print_list();
-
+    unary_corrector();
+    print_list();
     funk_up_priority();
     std::cout << "UP Prioritu\n";
     print_list();
@@ -372,6 +373,43 @@ class calk {
       //  a++;
     }
   }
+
+  void unary_corrector() {
+    Node *current = head->Next;
+    if (current->priority == 2) {
+      push_this_zero(current);
+      // std::cout << "NULLL\n";
+    }
+    while (current->Next != nullptr) {
+      if (current->sign.compare("(") == 0 && current->Next->priority == 2) {
+        push_this_zero(current);
+        //  std::cout << "\nNULLL\n";
+      }
+      current = current->Next;
+    }
+    //
+  };
+
+  void push_this_zero(Node *current) {
+    std::cout << "NULLLLLLLLLLLLL\n";
+    Node *temp = new Node(0, 0, "null");
+    temp->Next = current;
+    current->Prev->Next = temp;
+    current->Next->Prev = temp;
+    temp->Prev = current->Prev;
+
+    /*//
+    Node *temp = current;
+    if (current->Next != 0) {
+      current->Prev->Next = current->Next;
+      current->Next->Prev = current->Prev;
+    } else {
+      current->Prev->Next = nullptr;
+    }
+
+    --Size;*/
+    ++Size;
+  };
 
   std::map<std::string, int (*)()> operation_priority{
       {"(", []() -> int { return 1; }},    {")", []() -> int { return 1; }},

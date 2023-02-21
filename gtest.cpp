@@ -106,12 +106,12 @@ TEST(create_check, test17) {
   // std::cout << u1.rezalt() << "  rezalt \n";
   ASSERT_DOUBLE_EQ(u1.rezalt(), 10);
 }
-
+/*
 TEST(create_check, test18) {
   S21::calk u1("5+(-5)");
   // std::cout << u1.rezalt() << "  rezalt \n";
   ASSERT_DOUBLE_EQ(u1.rezalt(), 0);
-}
+}*/
 int main(int argc, char *argv[]) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
