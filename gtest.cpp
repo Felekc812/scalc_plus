@@ -6,6 +6,12 @@
 
 #include "start.h"
 
+TEST(create_check_increased_complexity, test1) {
+  S21::calk u1("sin2^3");
+  // std::cout << u1.rezalt() << "  rezalt \n";
+  ASSERT_DOUBLE_EQ(u1.rezalt(), 0.98935824662338179);
+}
+
 TEST(create_check, test1) {
   S21::calk u1("9*8+6-cos5");
   // std::cout << u1.rezalt() << "  rezalt \n";
@@ -106,12 +112,20 @@ TEST(create_check, test17) {
   // std::cout << u1.rezalt() << "  rezalt \n";
   ASSERT_DOUBLE_EQ(u1.rezalt(), 10);
 }
-/*
+
 TEST(create_check, test18) {
   S21::calk u1("5+(-5)");
   // std::cout << u1.rezalt() << "  rezalt \n";
   ASSERT_DOUBLE_EQ(u1.rezalt(), 0);
-}*/
+}
+
+TEST(create_check, test19) {
+  S21::calk u1("-5+5");
+  // std::cout << u1.rezalt() << "  rezalt \n";
+  ASSERT_DOUBLE_EQ(u1.rezalt(), 0);
+}
+
+///*/
 int main(int argc, char *argv[]) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

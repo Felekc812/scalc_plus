@@ -206,7 +206,8 @@ class calk {
             current->Prev->Prev->num, current->Prev->num);
 
         std::cout << current->Prev->num << "\n";
-        if (operation_priority.at(current->sign)() < 5) {
+        if (operation_priority.at(current->sign)() < 4 ||
+            operation_priority.at(current->sign)() == 5) {
           // std::cout << current->priority << current->sign <<
           // "&&&&&&&&&&&&&\n";
           pop_this(current->Prev->Prev);
@@ -304,10 +305,76 @@ class calk {
     ++Size;
   };
 
+  void unary_corrector() {
+    Node *current = head->Next;
+    if (current->priority == 2) {
+      push_this_zero(current);
+      ++head->priority;
+      //  std::cout << "NULLL\n";
+    }
+    while (current->Next != nullptr) {
+      if (current->sign.compare("(") == 0 && current->Next->priority == 2) {
+        current = current->Next;
+        push_this_zero(current);
+        ++head->priority;
+        //   std::cout << "\nNULLL\n";
+      }
+      current = current->Next;
+    }
+    //
+  };
+  /*
+    void degree_corrector() {
+      Node *current = head->Next->Next;
+      int cycle = 1;
+      while (current->Next != nullptr) {
+        //
+        if (current->priority == 9 && current->Prev->Prev->priority == 9) {
+          current->priority = current->priority - cycle;
+          --cycle;
+        }
+        current = current->Next;
+      }
+    }*/
+  void push_this_zero(Node *current) {
+    // std::cout << "NULLLLLLLLLLLLL\n";
+    Node *temp = new Node(0, 0, "null");
+    current->Prev->Next = temp;
+    temp->Next = current;
+
+    temp->Next->Prev = temp;
+    temp->Prev = current->Prev;
+
+    /*//
+    Node *temp = current;
+    if (current->Next != 0) {
+      current->Prev->Next = current->Next;
+      current->Next->Prev = current->Prev;
+    } else {
+      current->Prev->Next = nullptr;
+    }
+
+    --Size;*/
+    ++Size;
+  };
+
+  std::map<std::string, int (*)()> operation_priority{
+      {"(", []() -> int { return 1; }},    {")", []() -> int { return 1; }},
+      {"-", []() -> int { return 2; }},    {"+", []() -> int { return 2; }},
+      {"/", []() -> int { return 3; }},    {"*", []() -> int { return 3; }},
+      {"mod", []() -> int { return 3; }},  {"^", []() -> int { return 5; }},
+      {"sin", []() -> int { return 4; }},  {"cos", []() -> int { return 4; }},
+      {"tan", []() -> int { return 4; }},  {"sqrt", []() -> int { return 4; }},
+      {"ln", []() -> int { return 4; }},   {"log", []() -> int { return 4; }},
+      {"asin", []() -> int { return 4; }}, {"acos", []() -> int { return 4; }},
+      {"atan", []() -> int { return 4; }},
+  };
+
  public:
   double rezalt() {
     std::cout << "KONSTRUKTIR\n";
     print_list();
+    // degree_corrector();
     unary_corrector();
     print_list();
     funk_up_priority();
@@ -374,54 +441,6 @@ class calk {
     }
   }
 
-  void unary_corrector() {
-    Node *current = head->Next;
-    if (current->priority == 2) {
-      push_this_zero(current);
-      // std::cout << "NULLL\n";
-    }
-    while (current->Next != nullptr) {
-      if (current->sign.compare("(") == 0 && current->Next->priority == 2) {
-        push_this_zero(current);
-        //  std::cout << "\nNULLL\n";
-      }
-      current = current->Next;
-    }
-    //
-  };
-
-  void push_this_zero(Node *current) {
-    std::cout << "NULLLLLLLLLLLLL\n";
-    Node *temp = new Node(0, 0, "null");
-    temp->Next = current;
-    current->Prev->Next = temp;
-    current->Next->Prev = temp;
-    temp->Prev = current->Prev;
-
-    /*//
-    Node *temp = current;
-    if (current->Next != 0) {
-      current->Prev->Next = current->Next;
-      current->Next->Prev = current->Prev;
-    } else {
-      current->Prev->Next = nullptr;
-    }
-
-    --Size;*/
-    ++Size;
-  };
-
-  std::map<std::string, int (*)()> operation_priority{
-      {"(", []() -> int { return 1; }},    {")", []() -> int { return 1; }},
-      {"-", []() -> int { return 2; }},    {"+", []() -> int { return 2; }},
-      {"/", []() -> int { return 3; }},    {"*", []() -> int { return 3; }},
-      {"mod", []() -> int { return 3; }},  {"^", []() -> int { return 4; }},
-      {"sin", []() -> int { return 5; }},  {"cos", []() -> int { return 5; }},
-      {"tan", []() -> int { return 5; }},  {"sqrt", []() -> int { return 5; }},
-      {"ln", []() -> int { return 5; }},   {"log", []() -> int { return 5; }},
-      {"asin", []() -> int { return 5; }}, {"acos", []() -> int { return 5; }},
-      {"atan", []() -> int { return 5; }},
-  };
   ~calk() { clear(); };
 };
 
