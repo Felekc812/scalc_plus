@@ -390,47 +390,30 @@ class calk {
       temp = temp->Next;
     }
     return temp->num;
-    // return 0;
   }
-  std::vector<double> rezalt_func() {
+
+  std::vector<double> rezalt_func(double end_x) {
     std::vector<double> v_rezalt;
-    std::vector<Node *> v_node;
-
-    /* // while (x < 2) {
-     Node *temp = head;
-     while (temp->Next != nullptr) {
-       if (temp->sign.compare("x") == 0) {
-         v_node.push_back(temp);
-         //  temp->sign = "null";
-         // temp->priority = 0;
-         // temp->num = x;
-       }
-       temp = temp->Next;
-     }
-     /*
-     printf(">>>>>>>>>>> %ld", v_node.size());
-     std::cout << "\n" << *(v_node[0].sign) << "\n";
-     v_node[0].sign = "cos";
-     std::cout << "\n" << v_node[0].sign << "\n";
-
-    int x = 1;
-    while (x < 3) {
-      for (int i = 0; i < v_node.size(); ++i) {
-        v_node[i]->num = x;
-        v_node[i]->sign = "null";
+    double x = end_x * -1;
+    calk calk_temp;
+    while (x < end_x) {
+      Node *temp = head->Next;
+      while (temp != nullptr) {
+        calk_temp.push_back(temp->priority, temp->num, temp->sign);
+        temp = temp->Next;
       }
-      // std::cout << "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^66\n";
-
-      // print_list();
-      //  std::cout << rezalt();
-      v_rezalt.push_back(rezalt());
+      Node *temp_calk_temp = calk_temp.head;
+      while (temp_calk_temp->Next != nullptr) {
+        if (temp_calk_temp->sign.compare("x") == 0) {
+          temp_calk_temp->sign = "null";
+          temp_calk_temp->priority = 0;
+          temp_calk_temp->num = x;
+        }
+        temp_calk_temp = temp_calk_temp->Next;
+      }
+      v_rezalt.push_back(calk_temp.rezalt());
       ++x;
     }
-    */
-    //
-    //   ++x;
-    // }
-
     return v_rezalt;
   }
 
@@ -481,12 +464,6 @@ class calk {
       size_step = size_step - size_step_m;
       // printf("----------------\n\n");
       //  a++;
-    }
-  }
-  calk(calk &l) : calk() {
-    while (l.Size) {
-      push_back(l.head->Next->priority, l.head->Next->num, l.head->Next->sign);
-      l.pop_front();
     }
   }
   ~calk() { clear(); };

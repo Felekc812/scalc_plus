@@ -8,15 +8,15 @@
 #include "start.h"
 
 TEST(create_check_func, test1) {
-  S21::calk u1("x+x+2");
+  S21::calk u1("x+2");
   // std::cout << u1.rezalt() << "  rezalt \n";
-  std::vector rezalt = u1.rezalt_func();
-  std::cout << "\n  size " << rezalt.size() << "\n";
+  std::vector rezalt = u1.rezalt_func(10);
+  // std::cout << "\n  size " << rezalt.size() << "\n";
+  int x = -8;
   for (int i = 0; i < rezalt.size(); i++) {
-    std::cout << "\n  rezalt " << rezalt[i] << "\n";
-    //  ASSERT_DOUBLE_EQ(u1.rezalt[i], )
+    // std::cout << "\n  rezalt " << rezalt[i] << "\n";
+    ASSERT_DOUBLE_EQ(rezalt[i], x + i);
   }
-  // ASSERT_DOUBLE_EQ(u1.rezalt(), 0.98935824662338179);
 }
 /*
 TEST(create_check_increased_complexity, test1) {
