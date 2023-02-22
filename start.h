@@ -9,6 +9,7 @@
 #include <list>
 #include <map>
 #include <string>
+#include <vector>
 
 namespace S21 {
 
@@ -81,9 +82,9 @@ class calk {
 
   // public:
 
-  void validator(std::string hello) {
+  void validator(std::string str) {
     //
-    std::cout << hello << "\n";
+    std::cout << str << "\n";
   };
   void recognition(){};
 
@@ -367,7 +368,7 @@ class calk {
       {"tan", []() -> int { return 4; }},  {"sqrt", []() -> int { return 4; }},
       {"ln", []() -> int { return 4; }},   {"log", []() -> int { return 4; }},
       {"asin", []() -> int { return 4; }}, {"acos", []() -> int { return 4; }},
-      {"atan", []() -> int { return 4; }},
+      {"atan", []() -> int { return 4; }}, {"x", []() -> int { return 0; }},
   };
 
  public:
@@ -391,23 +392,65 @@ class calk {
     return temp->num;
     // return 0;
   }
+  std::vector<double> rezalt_func() {
+    std::vector<double> v_rezalt;
+    std::vector<Node *> v_node;
+
+    /* // while (x < 2) {
+     Node *temp = head;
+     while (temp->Next != nullptr) {
+       if (temp->sign.compare("x") == 0) {
+         v_node.push_back(temp);
+         //  temp->sign = "null";
+         // temp->priority = 0;
+         // temp->num = x;
+       }
+       temp = temp->Next;
+     }
+     /*
+     printf(">>>>>>>>>>> %ld", v_node.size());
+     std::cout << "\n" << *(v_node[0].sign) << "\n";
+     v_node[0].sign = "cos";
+     std::cout << "\n" << v_node[0].sign << "\n";
+
+    int x = 1;
+    while (x < 3) {
+      for (int i = 0; i < v_node.size(); ++i) {
+        v_node[i]->num = x;
+        v_node[i]->sign = "null";
+      }
+      // std::cout << "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^66\n";
+
+      // print_list();
+      //  std::cout << rezalt();
+      v_rezalt.push_back(rezalt());
+      ++x;
+    }
+    */
+    //
+    //   ++x;
+    // }
+
+    return v_rezalt;
+  }
+
   calk() {
     Size = 0;
     head = new Node(0, 0, "null");
     head->Prev = nullptr;
     head->Next = nullptr;
   }
-  calk(std::string hello) : calk() {
+  calk(std::string str) : calk() {
     int priority_pars;
     double num_pars;
     std::string sign_pars;
 
-    size_t size_step = strlen(hello.c_str());
-    char buf[strlen(hello.c_str()) + 2];
-    strcpy(buf, hello.c_str());
+    size_t size_step = strlen(str.c_str());
+    char buf[strlen(str.c_str()) + 2];
+    strcpy(buf, str.c_str());
     static const std::string tokens[] = {
-        "(",   ")",    "+",    "-",   "*",    "/",    "mod", "^",  "sin",
-        "cos", "asin", "acos", "tan", "atan", "sqrt", "ln",  "log"};
+        "(",   ")",    "+",    "-",   "*",    "/",    "mod", "^",   "sin",
+        "cos", "asin", "acos", "tan", "atan", "sqrt", "ln",  "log", "x"};
     // int a = 0;
     while (size_step) {
       size_t size_step_m = 0;
@@ -416,7 +459,7 @@ class calk {
         priority_pars = 0;
         num_pars = std::stof(buf, &size_step_m);
         // std::cout << num_pars << " num \n";
-        //  std::cout << size_step_m << "sx \n";
+        // std::cout << size_step_m << "sx \n";
       } else {
         for (auto &t : tokens) {
           if (strncmp(buf, t.c_str(), t.size()) == 0) {
@@ -440,7 +483,12 @@ class calk {
       //  a++;
     }
   }
-
+  calk(calk &l) : calk() {
+    while (l.Size) {
+      push_back(l.head->Next->priority, l.head->Next->num, l.head->Next->sign);
+      l.pop_front();
+    }
+  }
   ~calk() { clear(); };
 };
 
