@@ -161,7 +161,7 @@ void MainWindow::on_Button_funk_clicked() {
   // flag = 1;
   QString new_label;
   if (flag_rend == 0) {
-    new_label = (ui->lineEdit->text() + "=");
+    new_label = (ui->lineEdit->text() + ""); ///////!!!!!!!!!!!!!!!!!!!!!! тут надо вернуть =
     flag_rend = 1;
   } else {
     new_label = (ui->lineEdit->text());
@@ -258,12 +258,16 @@ void MainWindow::on_Button_funk_clicked() {
   /////заканчиваеться вычесление формулы
   else {
     double reza = 0;
-    int z = 0;//calc(input.data(), &reza);
-    printf("ощибка %d", z);
+    S21::Controller control;
+     printf("Старт расчета\n");
+     std::cout << new_label.toStdString() << "  формула \n";
+    reza = control.controller_calk(new_label.toStdString());
+   // int z = 0;//calc(input.data(), &reza);
+   // printf("ощибка %d", z);
     ui->lineEdit_2->setText(QString::number(reza));
-    if (z != 0) {
-      ui->lineEdit_2->setText("ошибка ввод");
-    }
+   // if (z != 0) {
+   //   ui->lineEdit_2->setText("ошибка ввод");
+   // }
   }
 
   input.clear();

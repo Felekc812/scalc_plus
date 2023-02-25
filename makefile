@@ -17,7 +17,11 @@ endif
 all: clean test 
 
 test:
-	@$(CPP) $(SANIT) $(CFLAGS)  gtest.cpp $(LIBS) $(GTEST) -o test
+	@$(CPP) $(SANIT) $(CFLAGS)  start.cpp controller_start.cpp gtest.cpp $(LIBS) $(GTEST) -o test
+	@./test
+
+start:
+	@$(CPP) $(SANIT) $(CFLAGS)  start.cpp controller_start.cpp $(LIBS) $(GTEST) -o test
 	@./test
 
 gcov_report: clean

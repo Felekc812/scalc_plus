@@ -1,7 +1,7 @@
   #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-
+#include "controller_start.h"
 /*
 #ifdef __cplusplus
 extern "C" {
