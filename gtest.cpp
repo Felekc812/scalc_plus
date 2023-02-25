@@ -18,6 +18,25 @@ TEST(create_check_func, test1) {
     ASSERT_DOUBLE_EQ(rezalt[i], x + i);
   }
 }
+
+TEST(create_check_increased_complexity, test1) {
+  S21::calk u1("2^0");
+  // std::cout << u1.rezalt() << "  rezalt \n";
+  ASSERT_DOUBLE_EQ(u1.rezalt(), 1);
+}
+
+TEST(create_check_increased_complexity, test2) {
+  S21::calk u1("0^2");
+  // std::cout << u1.rezalt() << "  rezalt \n";
+  ASSERT_DOUBLE_EQ(u1.rezalt(), 0);
+}
+
+TEST(create_check_increased_complexity, test3) {
+  S21::calk u1("2^(-2)");
+  // std::cout << u1.rezalt() << "  rezalt \n";
+  ASSERT_DOUBLE_EQ(u1.rezalt(), 0, 25);
+}
+
 /*
 TEST(create_check_increased_complexity, test1) {
   S21::calk u1("sin2^3");
