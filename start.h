@@ -57,6 +57,7 @@ class calk {
   void push_back(int priority_pars, double num_pars, std::string sign_pars);
   void unary_corrector();
   void push_this_zero(Node *current);
+  double step(int end_x);
 
   std::map<std::string, double (*)(double, double)> binary_operators{
       {"+", [](double v1, double v2) -> double { return v1 + v2; }},
@@ -110,7 +111,7 @@ class calk {
 
  public:
   double rezalt();
-  std::vector<double> rezalt_func(double end_x);
+  std::vector<double> rezalt_func(double end_x, std::vector<double> *meaning_x);
   calk();
   calk(std::string str);
   ~calk() { clear(); };

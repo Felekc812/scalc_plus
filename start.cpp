@@ -302,7 +302,8 @@ double S21::calk::rezalt() {
   return temp->num;
 }
 
-std::vector<double> S21::calk::rezalt_func(double end_x) {
+std::vector<double> S21::calk::rezalt_func(double end_x,
+                                           std::vector<double> *meaning_x) {
   std::vector<double> v_rezalt;
   double x = end_x * -1;
   calk calk_temp;
@@ -322,9 +323,25 @@ std::vector<double> S21::calk::rezalt_func(double end_x) {
       temp_calk_temp = temp_calk_temp->Next;
     }
     v_rezalt.push_back(calk_temp.rezalt());
-    ++x;
+    meaning_x->push_back(x);
+    x = x + step(end_x);
   }
+  // std::cout << meaning_x[1] << "  x \n";
   return v_rezalt;
+}
+
+double S21::calk::step(int end_x) {
+  double step_x = 0;
+  if (end_x < 100 && end_x > 0) {
+    step_x = 0.1;
+  } else if (end_x >= 100 && end_x < 1000) {
+    step_x = 1;
+  } else if (end_x >= 1000 && end_x < 1000000) {
+    step_x = 100;
+  } else {
+    step_x = 0;
+  }
+  return step_x;
 }
 
 S21::calk::calk() {

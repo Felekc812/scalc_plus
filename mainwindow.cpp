@@ -188,10 +188,9 @@ void MainWindow::on_Button_funk_clicked() {
 ///вычесление формулы
   if (formula != 0) {
     ui->widget->QCustomPlot ::clearGraphs();
-
     double h, X;
     QVector<double> x, y;
-
+//////шег вычесление
     int mach = 0;
     mach = ui->mach->text().toInt();
     if (mach > 1000) {
@@ -203,6 +202,8 @@ void MainWindow::on_Button_funk_clicked() {
     } else {
       h = 0.01;
     }
+///конец шага вычесления
+
 
     double X_0 = mach * -1;
     double X_1 = mach;

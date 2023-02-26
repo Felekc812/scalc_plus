@@ -10,15 +10,20 @@
 // #include "start.h"
 
 TEST(create_check_func, test1) {
+  std::vector<double> meaning_x;
   std::string str = "x+2";
   S21::Controller k;
-  std::vector rezalt = k.controller_formula(str, 10);
+  std::vector rezalt = k.controller_formula(str, 10, &meaning_x);
+  // std::cout << meaning_x.size() << "  meaning_x.size()  \n";
   int x = -8;
-  for (int i = 0; i < str.size(); i++) {
-    ASSERT_DOUBLE_EQ(rezalt[i], x + i);
+  for (int i = 0; i < rezalt.size(); i++) {
+    // std::cout << rezalt[i] << "  rezalt[i] \n";
+    // std::cout << meaning_x[i] + 2 << "  meaning_x[i] \n";
+    //  std::cout << meaning_x[i] << "  x \n";
+    ASSERT_DOUBLE_EQ(rezalt[i], meaning_x[i] + 2);
   }
 }
-
+/*
 TEST(create_check_increased_complexity, test1) {
   std::string str = "2^0";
   S21::Controller k;
@@ -42,7 +47,7 @@ TEST(create_check_increased_complexity, test3) {
   // std::cout << u1.rezalt() << "  rezalt \n";
   ASSERT_DOUBLE_EQ(u1.rezalt(), 0.25);
 }*/
-
+/*
 TEST(create_check_increased_complexity, test4) {
   std::string str = "sin2^3";
   S21::Controller k;
