@@ -111,7 +111,8 @@ class calk {
 
  public:
   double rezalt();
-  std::vector<double> rezalt_func(double end_x, std::vector<double> *meaning_x);
+  std::vector<double> rezalt_func(double end_x, std::vector<double> *meaning_x,
+                                  int calculation_option);
   calk();
   calk(std::string str);
   ~calk() { clear(); };

@@ -13,7 +13,7 @@ TEST(create_check_func, test1) {
   std::vector<double> meaning_x;
   std::string str = "x+2";
   S21::Controller k;
-  std::vector rezalt = k.controller_formula(str, 10, &meaning_x);
+  std::vector rezalt = k.controller_formula(str, 10, &meaning_x, 0);
   // std::cout << meaning_x.size() << "  meaning_x.size()  \n";
   int x = -8;
   for (int i = 0; i < rezalt.size(); i++) {
@@ -21,6 +21,20 @@ TEST(create_check_func, test1) {
     // std::cout << meaning_x[i] + 2 << "  meaning_x[i] \n";
     //  std::cout << meaning_x[i] << "  x \n";
     ASSERT_DOUBLE_EQ(rezalt[i], meaning_x[i] + 2);
+  }
+}
+TEST(create_check_func, test2) {
+  std::vector<double> meaning_x;
+  std::string str = "x+x+2";
+  S21::Controller k;
+  std::vector rezalt = k.controller_formula(str, 10, &meaning_x, 0);
+  // std::cout << meaning_x.size() << "  meaning_x.size()  \n";
+  int x = -8;
+  for (int i = 0; i < rezalt.size(); i++) {
+    // std::cout << rezalt[i] << "  rezalt[i] \n";
+    // std::cout << meaning_x[i] + 2 << "  meaning_x[i] \n";
+    //  std::cout << meaning_x[i] << "  x \n";
+    ASSERT_DOUBLE_EQ(rezalt[i], meaning_x[i] + meaning_x[i] + 2);
   }
 }
 

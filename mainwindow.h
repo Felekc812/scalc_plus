@@ -34,10 +34,11 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
+    //void build_graph (QString new_label);
 
 private:
     Ui::MainWindow *ui;
+
 
 private slots:
     void numbers();
@@ -48,6 +49,7 @@ private slots:
     void bracket_up();
     void bracket_don();
     void dot();
+    void build_graph (QString new_label);
     /*void on_baton_cred_clicked();
     void on_pushButton_result_clicked();
     void scan_data();
@@ -56,6 +58,7 @@ private slots:
     void clean_deposit_data();*/
     void sum_razn();
     void butten_x();
+
 
 signals:
     void signal();

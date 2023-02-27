@@ -11,7 +11,8 @@ class Controller {
  public:
   double controller_calk(std::string str);
   std::vector<double> controller_formula(std::string str, int end_x,
-                                         std::vector<double> *meaning_x);
+                                         std::vector<double> *meaning_x,
+                                         int calculation_option);
 };
 }  // namespace S21
 

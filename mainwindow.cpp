@@ -2,22 +2,22 @@
 
 #include "ui_mainwindow.h"
 
-/*#define CONDITION_DEPO                                                        \
+/*#define CONDITION_DEPO \
   d_sum >= 100 && d_procent >= 0 && d_month >= 1 && tax >= 0 && donat >= 0 && \
       every >= 0*/
 
-//double d_sum;
-//int d_month;
-//double d_procent;
-//double tax;
-//double donat;
-//int every;
+// double d_sum;
+// int d_month;
+// double d_procent;
+// double tax;
+// double donat;
+// int every;
 
-int bracket=0;
+int bracket = 0;
 int flag = 1;
-int flag_dot=0;
+int flag_dot = 0;
 int flag_rend = 0;
-int formula =0;
+int formula = 0;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -64,53 +64,56 @@ MainWindow::~MainWindow() { delete ui; }
 void MainWindow::numbers() {
   QPushButton *button = (QPushButton *)sender();
   QString new_label;
-  if(flag==1){
-  new_label = (ui->lineEdit->text() + button->text());
-  ui->lineEdit->setText(new_label);
-  flag = 0;
-  //flag_dot = 0;
-  }
+  //if (flag == 1) {
+    new_label = (ui->lineEdit->text() + button->text());
+    ui->lineEdit->setText(new_label);
+    flag = 0;
+    // flag_dot = 0;
+  //}
 }
 
 void MainWindow::dot() {
   QPushButton *button = (QPushButton *)sender();
   QString new_label;
-  if(flag_dot ==0 &&flag ==0){
-  new_label = (ui->lineEdit->text() + button->text());
-  ui->lineEdit->setText(new_label);
-  flag =1;
-  flag_dot = 1;}
+  if (flag_dot == 0 && flag == 0) {
+    new_label = (ui->lineEdit->text() + button->text());
+    ui->lineEdit->setText(new_label);
+    flag = 1;
+    flag_dot = 1;
+  }
 }
 
 void MainWindow::bracket_up() {
   QPushButton *button = (QPushButton *)sender();
   QString new_label;
-  if(flag_dot==0){
-  new_label = (ui->lineEdit->text() + button->text());
-  ui->lineEdit->setText(new_label);
-  ++bracket;
-  flag = 1;}
+  if (flag_dot == 0) {
+    new_label = (ui->lineEdit->text() + button->text());
+    ui->lineEdit->setText(new_label);
+    ++bracket;
+    flag = 1;
+  }
 }
 
 void MainWindow::bracket_don() {
   QPushButton *button = (QPushButton *)sender();
   QString new_label;
-  if(flag_dot==0 && flag ==0 && bracket>0){
-  new_label = (ui->lineEdit->text() + button->text());
-  ui->lineEdit->setText(new_label);
-  --bracket;
-  //flag = 0;
+  if (flag_dot == 0 && flag == 0 && bracket > 0) {
+    new_label = (ui->lineEdit->text() + button->text());
+    ui->lineEdit->setText(new_label);
+    --bracket;
+    // flag = 0;
   }
 }
 
 void MainWindow::actions() {
   QPushButton *button = (QPushButton *)sender();
   QString new_label;
-  if(flag ==0){
-  new_label = (ui->lineEdit->text() + button->text());
-  ui->lineEdit->setText(new_label);
-  flag_dot = 0;
-  flag = 1;}
+  if (flag == 0) {
+    new_label = (ui->lineEdit->text() + button->text());
+    ui->lineEdit->setText(new_label);
+    flag_dot = 0;
+    flag = 1;
+  }
 }
 void MainWindow::sum_razn() {
   QPushButton *button = (QPushButton *)sender();
@@ -121,22 +124,23 @@ void MainWindow::sum_razn() {
     flag = 1;
     flag_dot = 0;
   } else {
-      if(flag_dot==0){
-    new_label = (ui->lineEdit->text() + "(" + button->text());
-    ui->lineEdit->setText(new_label);}
-      ++bracket;
+    if (flag_dot == 0) {
+      new_label = (ui->lineEdit->text() + "(" + button->text());
+      ui->lineEdit->setText(new_label);
+    }
+    ++bracket;
   }
 }
 
 void MainWindow::triganmetr() {
   QPushButton *button = (QPushButton *)sender();
   QString new_label;
-  if(flag_dot==0&&flag==1){
-  new_label = (ui->lineEdit->text() + button->text() + "(");
-  ui->lineEdit->setText(new_label);
-  flag = 1;
-  ++bracket;
-  flag_dot = 0;
+  if (flag_dot == 0 && flag == 1) {
+    new_label = (ui->lineEdit->text() + button->text() + "(");
+    ui->lineEdit->setText(new_label);
+    flag = 1;
+    ++bracket;
+    flag_dot = 0;
   }
 }
 void MainWindow::butten_x() {
@@ -145,7 +149,7 @@ void MainWindow::butten_x() {
   new_label = (ui->lineEdit->text() + "(" + button->text() + ")");
   ui->lineEdit->setText(new_label);
   flag = 0;
-  formula =1;
+  formula = 1;
 }
 
 void MainWindow::on_Button_ac_clicked() {
@@ -153,7 +157,7 @@ void MainWindow::on_Button_ac_clicked() {
   new_label = nullptr;
   ui->lineEdit->setText(new_label);
   flag = 1;
-  flag_dot=0;
+  flag_dot = 0;
   flag_rend = 0;
 }
 
@@ -161,119 +165,76 @@ void MainWindow::on_Button_funk_clicked() {
   // flag = 1;
   QString new_label;
   if (flag_rend == 0) {
-    new_label = (ui->lineEdit->text() + ""); ///////!!!!!!!!!!!!!!!!!!!!!! тут надо вернуть =
+    new_label = (ui->lineEdit->text() +
+                 "");  ///////!!!!!!!!!!!!!!!!!!!!!! тут надо вернуть =
     flag_rend = 1;
   } else {
     new_label = (ui->lineEdit->text());
- }
+  }
   ui->lineEdit->setText(new_label);
 
   QByteArray input = new_label.toLocal8Bit();
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  if (ui->checkBox_3->isChecked()) {
-    double new_x = (ui->substitution->text().toDouble());
-    // printf("++++++new_label_x %f \n", new_x);
-    char psz_x[32];
-    sprintf(psz_x, "%.2f", new_x);
-    int j = 0; //prov_form(input.data());
-    do {
-      input.replace(j - 1, 1, psz_x);
-      j = 0;// prov_form(input.data());
-    } while (j != 0);
-  }
-////финальный расчет*****
-  //int l = 0;
-  //l = prov_form(input.data());
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  ////финальный расчет*****
   printf(">>>>>>>>%d \n", formula);
-///вычесление формулы
+  /// вычесление формулы
   if (formula != 0) {
-    ui->widget->QCustomPlot ::clearGraphs();
-    double h, X;
-    QVector<double> x, y;
-//////шег вычесление
-    int mach = 0;
-    mach = ui->mach->text().toInt();
-    if (mach > 1000) {
-      h = 100;
-    } else if (mach > 100 && mach < 1000) {
-      h = 1;
-    } else if (mach == 0 || mach > 1000000) {
-      ui->mach->setText("надо задать");
+    std::vector<double> value_X;
+    S21::Controller controller;
+    if (ui->checkBox_3->isChecked()) {
+     // printf("Счек бокс активен");
+      // formula = 0;
+      double new_x = (ui->substitution->text().toDouble());
+      std::vector<double> value_Y = controller.controller_formula(
+          new_label.toStdString(), new_x, &value_X, 1);
+      //printf(">>>>>>>>>>%f\n",value_Y[0]);
+      ui->lineEdit_2->setText(QString::number(value_Y[0]));
     } else {
-      h = 0.01;
-    }
-///конец шага вычесления
-
-
-    double X_0 = mach * -1;
-    double X_1 = mach;
-    double Y_0 = mach * -1;
-    double Y_1 = mach;
-
-    ui->widget->xAxis->setRange(X_0, X_1);
-    ui->widget->yAxis->setRange(Y_0, Y_1);
-    int z;
-    // int flag_kvadro = x_in_step(input.data());
-
-    for (X = X_0; X < X_1; X += h) {
-      QByteArray input2 = input;
-      char psz[32];
-      char psz2[34] = "0+";
-      sprintf(psz, "%.7f", X);
-      strcat(psz2, psz);
-      printf(">>>>>>>>%s \n", psz2);
-      double reza = 0;
-      do {
-        input2.replace(formula - 1, 1, psz);
-        formula = 0;//prov_form(input2.data());
-      } while (formula != 0);
-      printf("%s \n", input2.data());
-      z = 0;//calc(input2.data(), &reza);
-      printf("X %f  Y %f \n", X, reza);
-      x.push_back(X);
-      y.push_back(reza);
-    }
-
-    ui->widget->addGraph();
-    ui->widget->graph(0)->addData(x, y);
-
-    // ui->widget->graph(0)->setData(x, y);
-    // ui->widget->graph(0)->setLineStyle(QCPGraph::lsNone);//убираем линии
-    // ui->widget->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssCircle,
-    // 4));
-
-    ui->widget->xAxis->setLabel("x");
-    ui->widget->yAxis->setLabel("y");
-
-    x.clear();
-    y.clear();
-    x.squeeze();
-    y.squeeze();
-    ui->widget->replot();
-
-    ui->lineEdit_2->setText("formula");
-    if (z != 0) {
-      ui->lineEdit_2->setText("ошибка ввод");
+build_graph(new_label);
     }
   }
   /////заканчиваеться вычесление формулы
   else {
     double reza = 0;
     S21::Controller control;
-     printf("Старт расчета\n");
-     std::cout << new_label.toStdString() << "  формула \n";
+    //printf("Старт расчета\n");
+   // std::cout << new_label.toStdString() << "  формула \n";
     reza = control.controller_calk(new_label.toStdString());
-   // int z = 0;//calc(input.data(), &reza);
-   // printf("ощибка %d", z);
     ui->lineEdit_2->setText(QString::number(reza));
-   // if (z != 0) {
-   //   ui->lineEdit_2->setText("ошибка ввод");
-   // }
   }
-
   input.clear();
-  // flag = 1;
 }
+
+void MainWindow::build_graph (QString new_label) {
+    std::vector<double> value_X;
+    S21::Controller controller;
+    ui->widget->QCustomPlot ::clearGraphs();
+  //  double h, X;
+    QVector<double> x, y;
+    int mach_x = (ui->mach->text().toInt());
+    ui->widget->xAxis->setRange(mach_x * -1, mach_x);
+    ui->widget->yAxis->setRange(mach_x*-1, mach_x);
+    // std::vector<double> value_X;
+    std::vector<double> value_Y = controller.controller_formula(
+        new_label.toStdString(), mach_x, &value_X, 0);
+    for (size_t i = 0; i < value_Y.size(); ++i) {
+      x.push_back(value_X[i]);
+      y.push_back(value_Y[i]);
+    }
+    ui->widget->addGraph();
+    ui->widget->graph(0)->addData(x, y);
+    ui->widget->xAxis->setLabel("x");
+    ui->widget->yAxis->setLabel("y");
+    x.clear();
+    y.clear();
+    x.squeeze();
+    y.squeeze();
+    ui->widget->replot();
+    ui->lineEdit_2->setText("formula");
+
+}
+
 /*
 void MainWindow::on_baton_cred_clicked() {
   double platesh_manf = 0;

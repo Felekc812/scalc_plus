@@ -149,15 +149,15 @@ void S21::calk::pop_front() {
 void S21::calk::calculation() {
   Node *current = head->Next;
   while (current->Next != nullptr) {
-    std::cout << "*********************\n";
+    // std::cout << "*********************\n";
     if (current->priority >= current->Next->priority &&
         current->priority != 0) {
-      std::cout << current->sign << "  " << current->Prev->Prev->num << "  "
-                << current->Prev->num << "\n";
+      // std::cout << current->sign << "  " << current->Prev->Prev->num << "  "
+      //         << current->Prev->num << "\n";
       current->num = binary_operators.at(current->sign)(
           current->Prev->Prev->num, current->Prev->num);
 
-      std::cout << current->Prev->num << "\n";
+      // std::cout << current->Prev->num << "\n";
       if (operation_priority.at(current->sign)() < 4 ||
           operation_priority.at(current->sign)() == 5) {
         // std::cout << current->priority << current->sign <<
@@ -167,23 +167,23 @@ void S21::calk::calculation() {
       pop_this(current->Prev);
       current->priority = 0;
       current->sign = "null";
-      print_list();
+      // print_list();
       // current = current->Next;
     }
     current = current->Next;
   }
-  std::cout << current->sign << "  " << current->Prev->Prev->num << "  "
-            << current->Prev->num << "\n";
+  // std::cout << current->sign << "  " << current->Prev->Prev->num << "  "
+  //         << current->Prev->num << "\n";
   current->num = binary_operators.at(current->sign)(current->Prev->Prev->num,
                                                     current->Prev->num);
   current->sign = "null";
   current->priority = 0;
-  std::cout << "reza\n";
-  print_list();
+  // std::cout << "reza\n";
+  // print_list();
 }
 
 void S21::calk::pop_this(S21::calk::Node *current) {
-  std::cout << "pop << " << current->priority << "\n";
+  // std::cout << "pop << " << current->priority << "\n";
   Node *del = current;
   if (current->Next != 0) {
     current->Prev->Next = current->Next;
@@ -194,16 +194,16 @@ void S21::calk::pop_this(S21::calk::Node *current) {
   delete del;
   --Size;
 }
-
+/*
 void S21::calk::print_list() {
   Node *current = head;
   while (current != nullptr) {
     printf("priir %d      num %f     ", current->priority, current->num);
-    std::cout << current->sign << "  znch \n";
+    // std::cout << current->sign << "  znch \n";
     current = current->Next;
   }
 }
-
+*/
 void S21::calk::clear() {
   while (Size + 1 > 0) {
     // printf("cler  %d\n", Size);
@@ -283,17 +283,17 @@ void S21::calk::push_this_zero(S21::calk::Node *current) {
 }
 
 double S21::calk::rezalt() {
-  std::cout << "KONSTRUKTIR\n";
-  print_list();
-  // degree_corrector();
+  // std::cout << "KONSTRUKTIR\n";
+  // print_list();
+  //  degree_corrector();
   unary_corrector();
-  print_list();
+  // print_list();
   funk_up_priority();
-  std::cout << "UP Prioritu\n";
-  print_list();
+  // std::cout << "UP Prioritu\n";
+  // print_list();
   in_polish();
-  std::cout << "POLSKAIA\n";
-  print_list();
+  // std::cout << "POLSKAIA\n";
+  // print_list();
   calculation();
   Node *temp = head;
   while (temp->Next != nullptr) {
@@ -303,11 +303,17 @@ double S21::calk::rezalt() {
 }
 
 std::vector<double> S21::calk::rezalt_func(double end_x,
-                                           std::vector<double> *meaning_x) {
+                                           std::vector<double> *meaning_x,
+                                           int calculation_option) {
   std::vector<double> v_rezalt;
-  double x = end_x * -1;
+  double x = 0;
+  if (calculation_option == 0) {
+    x = end_x * -1;
+  } else {
+    x = end_x;
+  }
   calk calk_temp;
-  while (x < end_x) {
+  while (x <= end_x) {
     Node *temp = head->Next;
     while (temp != nullptr) {
       calk_temp.push_back(temp->priority, temp->num, temp->sign);
