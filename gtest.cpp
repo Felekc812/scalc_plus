@@ -23,7 +23,7 @@ TEST(create_check_func, test1) {
     ASSERT_DOUBLE_EQ(rezalt[i], meaning_x[i] + 2);
   }
 }
-/*
+
 TEST(create_check_increased_complexity, test1) {
   std::string str = "2^0";
   S21::Controller k;
@@ -41,13 +41,13 @@ TEST(create_check_increased_complexity, test2) {
   double rezalt = k.controller_calk(str);
   ASSERT_DOUBLE_EQ(rezalt, 0);
 }
-/*
+
 TEST(create_check_increased_complexity, test3) {
   S21::calk u1("2^(-2)");
   // std::cout << u1.rezalt() << "  rezalt \n";
   ASSERT_DOUBLE_EQ(u1.rezalt(), 0.25);
-}*/
-/*
+}
+
 TEST(create_check_increased_complexity, test4) {
   std::string str = "sin2^3";
   S21::Controller k;
@@ -232,7 +232,7 @@ TEST(create_check, test16) {
   //  std::cout << u1.rezalt() << "  rezalt \n";
   // ASSERT_DOUBLE_EQ(u1.rezalt(), 0.29505041818708266);
 }
-/*
+
 TEST(create_check, test17) {
   S21::calk u1("5-(-5)");
   // std::cout << u1.rezalt() << "  rezalt \n";
@@ -244,7 +244,7 @@ TEST(create_check, test18) {
   // std::cout << u1.rezalt() << "  rezalt \n";
   ASSERT_DOUBLE_EQ(u1.rezalt(), 0);
 }
-/*
+
 TEST(create_check, test19) {
   S21::calk u1("-5+5");
   // std::cout << u1.rezalt() << "  rezalt \n";

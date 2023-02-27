@@ -286,7 +286,7 @@ double S21::calk::rezalt() {
   std::cout << "KONSTRUKTIR\n";
   print_list();
   // degree_corrector();
-  // unary_corrector();
+  unary_corrector();
   print_list();
   funk_up_priority();
   std::cout << "UP Prioritu\n";
