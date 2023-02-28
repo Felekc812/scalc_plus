@@ -71,13 +71,6 @@ void S21::calk::in_polish_nation() {
   while (current != nullptr) {
     if (current->priority == 0) {
       temp.push_back(current->priority, current->num, current->sign);
-      //} else if (current->priority == 1) {
-      //  if (current->sign.compare("(") == 0) {
-      //    up_priority = up_priority + 10;
-      //  } else {
-      //    up_priority = up_priority - 10;
-      //  }
-
     } else if (current->priority != 0 &&
                current->priority > buf_sig.push_back_priority()) {
       buf_sig.push_back(current->priority, current->num, current->sign);
@@ -95,25 +88,14 @@ void S21::calk::in_polish_nation() {
       }
       buf_sig.push_back(current->priority, current->num, current->sign);
     }
-
     current = current->Next;
   }
   while (buf_sig.Size != 0) {
     temp.push_back(buf_sig.push_back_priority(), 0, buf_sig.push_back_sign());
     buf_sig.pop_back();
   }
-  // printf("temp\n");
-  // temp.print_list();
-  // printf("buf_temp\n");
-  // buf_sig.print_list();
-  /////////
   buf_sig.clear();
   array_copy_calk(temp);
-
-  // temp.Size = -1;
-
-  // printf("152 str  %d\n", temp.Size);
-  // printf("array_copy_calk+  %d\n", Size);
 }
 
 void S21::calk::array_copy_calk(S21::calk temp) {  // temp.print_list();
@@ -360,7 +342,6 @@ S21::calk::calk(std::string str) : calk() {
   int priority_pars;
   double num_pars;
   std::string sign_pars;
-
   size_t size_step = strlen(str.c_str());
   char buf[strlen(str.c_str()) + 2];
   strcpy(buf, str.c_str());
