@@ -265,21 +265,26 @@ void S21::calk::push_this_zero(S21::calk::Node *current) {
 }
 
 double S21::calk::example_calculation() {
-  // std::cout << "KONSTRUKTIR\n";
-  // print_list();
-  //  degree_corrector();
-  handling_unary_operations();
-  // print_list();
-  bracket_to_up_priority();
-  // std::cout << "UP Prioritu\n";
-  // print_list();
-  in_polish_nation();
-  // std::cout << "POLSKAIA\n";
-  // print_list();
-  calculation();
+  std::cout << Size << "\n";
   Node *temp = head;
-  while (temp->Next != nullptr) {
-    temp = temp->Next;
+  if (Size > 1) {
+    // print_list();
+    //  degree_corrector();
+    handling_unary_operations();
+    // print_list();
+    bracket_to_up_priority();
+    // std::cout << "UP Prioritu\n";
+    // print_list();
+    in_polish_nation();
+    // std::cout << "POLSKAIA\n";
+    // print_list();
+    calculation();
+
+    while (temp->Next != nullptr) {
+      temp = temp->Next;
+    }
+  } else {
+    temp->num = 0;
   }
   return temp->num;
 }

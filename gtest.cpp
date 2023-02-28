@@ -74,6 +74,13 @@ TEST(create_check_increased_complexity, test4) {
   // ASSERT_DOUBLE_EQ(u1.rezalt(), 0.98935824662338179);
 }
 
+TEST(create_check_increased_complexity, test5) {
+  std::string str = "2";
+  S21::Controller k;
+  double rezalt = k.controller_calk(str);
+  ASSERT_DOUBLE_EQ(rezalt, 0);
+}
+
 TEST(create_check, test1) {
   std::string str = "9*8+6-cos5";
   S21::Controller k;
