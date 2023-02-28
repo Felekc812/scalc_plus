@@ -32,34 +32,32 @@ class calk {
       this->Next = Next;
       this->Prev = Prev;
     };
-    /*
     Node(const Node &other) = delete;
     Node(Node &&other) = delete;
     Node &operator=(Node &&other) = delete;
     ~Node() = default;
-    */
   };
   Node *head;
   int Size;
 
   void clear_end_array(char *buf, size_t size_step, size_t size_step_m);
-  int back_priority();
-  std::string back_sign();
+  int push_back_priority();
+  std::string push_back_sign();
   void pop_back();
-  void funk_up_priority();
-  void in_polish();
-  void coop(calk temp);
+  void bracket_to_up_priority();
+  void in_polish_nation();
+  void array_copy_calk(calk temp);
   void pop_front();
   void calculation();
-  void pop_this(Node *current);
+  void pop_this_cell(Node *current);
   void print_list();
   void clear();
   void push_back(int priority_pars, double num_pars, std::string sign_pars);
-  void unary_corrector();
+  void handling_unary_operations();
   void push_this_zero(Node *current);
   double step(int end_x);
 
-  std::map<std::string, double (*)(double, double)> binary_operators{
+  std::map<std::string, double (*)(double, double)> calculation_functions{
       {"+", [](double v1, double v2) -> double { return v1 + v2; }},
       {"-", [](double v1, double v2) -> double { return v1 - v2; }},
       {"*", [](double v1, double v2) -> double { return v1 * v2; }},
@@ -110,9 +108,10 @@ class calk {
    }*/
 
  public:
-  double rezalt();
-  std::vector<double> rezalt_func(double end_x, std::vector<double> *meaning_x,
-                                  int calculation_option);
+  double example_calculation();
+  std::vector<double> function_calculation(double end_x,
+                                           std::vector<double> *meaning_x,
+                                           int calculation_option);
   calk();
   calk(std::string str);
   ~calk() { clear(); };

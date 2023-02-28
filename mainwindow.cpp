@@ -64,11 +64,11 @@ MainWindow::~MainWindow() { delete ui; }
 void MainWindow::numbers() {
   QPushButton *button = (QPushButton *)sender();
   QString new_label;
-  //if (flag == 1) {
-    new_label = (ui->lineEdit->text() + button->text());
-    ui->lineEdit->setText(new_label);
-    flag = 0;
-    // flag_dot = 0;
+  // if (flag == 1) {
+  new_label = (ui->lineEdit->text() + button->text());
+  ui->lineEdit->setText(new_label);
+  flag = 0;
+  // flag_dot = 0;
   //}
 }
 
@@ -163,6 +163,7 @@ void MainWindow::on_Button_ac_clicked() {
 
 void MainWindow::on_Button_funk_clicked() {
   // flag = 1;
+  //// ресование Э=Э
   QString new_label;
   if (flag_rend == 0) {
     new_label = (ui->lineEdit->text() +
@@ -173,7 +174,7 @@ void MainWindow::on_Button_funk_clicked() {
   }
   ui->lineEdit->setText(new_label);
 
-  QByteArray input = new_label.toLocal8Bit();
+  //QByteArray input = new_label.toLocal8Bit();
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   ////финальный расчет*****
@@ -183,56 +184,68 @@ void MainWindow::on_Button_funk_clicked() {
     std::vector<double> value_X;
     S21::Controller controller;
     if (ui->checkBox_3->isChecked()) {
-     // printf("Счек бокс активен");
+      /*// printf("Счек бокс активен");
       // formula = 0;
       double new_x = (ui->substitution->text().toDouble());
       std::vector<double> value_Y = controller.controller_formula(
           new_label.toStdString(), new_x, &value_X, 1);
-      //printf(">>>>>>>>>>%f\n",value_Y[0]);
-      ui->lineEdit_2->setText(QString::number(value_Y[0]));
+      // printf(">>>>>>>>>>%f\n",value_Y[0]);
+      ui->lineEdit_2->setText(QString::number(value_Y[0]));*/
+      substitution_x(new_label);
     } else {
-build_graph(new_label);
+      build_graph(new_label);
     }
   }
   /////заканчиваеться вычесление формулы
   else {
-    double reza = 0;
+   // double reza = 0;
     S21::Controller control;
-    //printf("Старт расчета\n");
-   // std::cout << new_label.toStdString() << "  формула \n";
-    reza = control.controller_calk(new_label.toStdString());
+    // printf("Старт расчета\n");
+    // std::cout << new_label.toStdString() << "  формула \n";
+    double reza = control.controller_calk(new_label.toStdString());
     ui->lineEdit_2->setText(QString::number(reza));
   }
   input.clear();
 }
 
-void MainWindow::build_graph (QString new_label) {
-    std::vector<double> value_X;
-    S21::Controller controller;
-    ui->widget->QCustomPlot ::clearGraphs();
-  //  double h, X;
-    QVector<double> x, y;
-    int mach_x = (ui->mach->text().toInt());
-    ui->widget->xAxis->setRange(mach_x * -1, mach_x);
-    ui->widget->yAxis->setRange(mach_x*-1, mach_x);
-    // std::vector<double> value_X;
-    std::vector<double> value_Y = controller.controller_formula(
-        new_label.toStdString(), mach_x, &value_X, 0);
-    for (size_t i = 0; i < value_Y.size(); ++i) {
-      x.push_back(value_X[i]);
-      y.push_back(value_Y[i]);
-    }
-    ui->widget->addGraph();
-    ui->widget->graph(0)->addData(x, y);
-    ui->widget->xAxis->setLabel("x");
-    ui->widget->yAxis->setLabel("y");
-    x.clear();
-    y.clear();
-    x.squeeze();
-    y.squeeze();
-    ui->widget->replot();
-    ui->lineEdit_2->setText("formula");
+void MainWindow::substitution_x(QString new_label) {
+  std::vector<double> value_X;
+  S21::Controller controller;
+  // printf("Счек бокс активен");
+  // formula = 0;
+  double new_x = (ui->substitution->text().toDouble());
+  std::vector<double> value_Y = controller.controller_formula(
+      new_label.toStdString(), new_x, &value_X, 1);
+  // printf(">>>>>>>>>>%f\n",value_Y[0]);
+  ui->lineEdit_2->setText(QString::number(value_Y[0]));
+}
 
+void MainWindow::build_graph(QString new_label) {
+  std::vector<double> value_X;
+  S21::Controller controller;
+  ui->widget->QCustomPlot ::clearGraphs();
+  //  double h, X;
+  QVector<double> x, y;
+  int mach_x = (ui->mach->text().toInt());
+  ui->widget->xAxis->setRange(mach_x * -1, mach_x);
+  ui->widget->yAxis->setRange(mach_x * -1, mach_x);
+  // std::vector<double> value_X;
+  std::vector<double> value_Y = controller.controller_formula(
+      new_label.toStdString(), mach_x, &value_X, 0);
+  for (size_t i = 0; i < value_Y.size(); ++i) {
+    x.push_back(value_X[i]);
+    y.push_back(value_Y[i]);
+  }
+  ui->widget->addGraph();
+  ui->widget->graph(0)->addData(x, y);
+  ui->widget->xAxis->setLabel("x");
+  ui->widget->yAxis->setLabel("y");
+  x.clear();
+  y.clear();
+  x.squeeze();
+  y.squeeze();
+  ui->widget->replot();
+  ui->lineEdit_2->setText("formula");
 }
 
 /*

@@ -13,7 +13,7 @@ void S21::calk::clear_end_array(char *buf, size_t size_step,
   }
 }
 
-int S21::calk::back_priority() {
+int S21::calk::push_back_priority() {
   Node *temp = head;
   while (temp->Next != nullptr) {
     temp = temp->Next;
@@ -21,7 +21,7 @@ int S21::calk::back_priority() {
   return temp->priority;
 }
 
-std::string S21::calk::back_sign() {
+std::string S21::calk::push_back_sign() {
   Node *temp = head;
   while (temp->Next != nullptr) {
     temp = temp->Next;
@@ -40,7 +40,7 @@ void S21::calk::pop_back() {
   --Size;
 }
 
-void S21::calk::funk_up_priority() {
+void S21::calk::bracket_to_up_priority() {
   int up_priority = 0;
   Node *current = head->Next;
   while (current != nullptr) {
@@ -49,10 +49,10 @@ void S21::calk::funk_up_priority() {
       Node *temp = current->Next;
       if (current->sign.compare("(") == 0) {
         up_priority = up_priority + 10;
-        pop_this(current);
+        pop_this_cell(current);
       } else {
         up_priority = up_priority - 10;
-        pop_this(current);
+        pop_this_cell(current);
       }
       current = temp;
     } else {
@@ -64,7 +64,7 @@ void S21::calk::funk_up_priority() {
   }
 }
 
-void S21::calk::in_polish() {
+void S21::calk::in_polish_nation() {
   calk temp;
   calk buf_sig;
   Node *current = head->Next;
@@ -79,16 +79,19 @@ void S21::calk::in_polish() {
       //  }
 
     } else if (current->priority != 0 &&
-               current->priority > buf_sig.back_priority()) {
+               current->priority > buf_sig.push_back_priority()) {
       buf_sig.push_back(current->priority, current->num, current->sign);
     } else {
-      printf("^^^   %d    %d  \n", buf_sig.back_priority(), current->priority);
-      while (buf_sig.back_priority() >= current->priority &&
+      // printf("^^^   %d    %d  \n", buf_sig.push_back_priority(),
+      //      current->priority);
+      while (buf_sig.push_back_priority() >= current->priority &&
              buf_sig.Size != 0) {
-        printf("%d    %d  \n", buf_sig.back_priority(), current->priority);
-        temp.push_back(buf_sig.back_priority(), 0, buf_sig.back_sign());
+        // printf("%d    %d  \n", buf_sig.push_back_priority(),
+        // current->priority);
+        temp.push_back(buf_sig.push_back_priority(), 0,
+                       buf_sig.push_back_sign());
         buf_sig.pop_back();
-        printf("SIZE %d\n", buf_sig.Size);
+        // printf("SIZE %d\n", buf_sig.Size);
       }
       buf_sig.push_back(current->priority, current->num, current->sign);
     }
@@ -96,7 +99,7 @@ void S21::calk::in_polish() {
     current = current->Next;
   }
   while (buf_sig.Size != 0) {
-    temp.push_back(buf_sig.back_priority(), 0, buf_sig.back_sign());
+    temp.push_back(buf_sig.push_back_priority(), 0, buf_sig.push_back_sign());
     buf_sig.pop_back();
   }
   // printf("temp\n");
@@ -105,15 +108,15 @@ void S21::calk::in_polish() {
   // buf_sig.print_list();
   /////////
   buf_sig.clear();
-  coop(temp);
+  array_copy_calk(temp);
 
   // temp.Size = -1;
 
   // printf("152 str  %d\n", temp.Size);
-  // printf("coop+  %d\n", Size);
+  // printf("array_copy_calk+  %d\n", Size);
 }
 
-void S21::calk::coop(S21::calk temp) {  // temp.print_list();
+void S21::calk::array_copy_calk(S21::calk temp) {  // temp.print_list();
   Node *previous_temp = temp.head;
   Node *previous_head = head;
   // clear();
@@ -126,10 +129,10 @@ void S21::calk::coop(S21::calk temp) {  // temp.print_list();
   }
   // print_list();
   //
-  // printf("coop+  %d  %d\n", Size, temp.Size);
+  // printf("array_copy_calk+  %d  %d\n", Size, temp.Size);
   //  temp.clear();
   // printf("172 str  %d\n", temp.Size);
-  // printf("coop\n");
+  // printf("array_copy_calk\n");
   temp.Size = -1;
 }
 
@@ -154,7 +157,7 @@ void S21::calk::calculation() {
         current->priority != 0) {
       // std::cout << current->sign << "  " << current->Prev->Prev->num << "  "
       //         << current->Prev->num << "\n";
-      current->num = binary_operators.at(current->sign)(
+      current->num = calculation_functions.at(current->sign)(
           current->Prev->Prev->num, current->Prev->num);
 
       // std::cout << current->Prev->num << "\n";
@@ -162,9 +165,9 @@ void S21::calk::calculation() {
           operation_priority.at(current->sign)() == 5) {
         // std::cout << current->priority << current->sign <<
         // "&&&&&&&&&&&&&\n";
-        pop_this(current->Prev->Prev);
+        pop_this_cell(current->Prev->Prev);
       }
-      pop_this(current->Prev);
+      pop_this_cell(current->Prev);
       current->priority = 0;
       current->sign = "null";
       // print_list();
@@ -174,15 +177,15 @@ void S21::calk::calculation() {
   }
   // std::cout << current->sign << "  " << current->Prev->Prev->num << "  "
   //         << current->Prev->num << "\n";
-  current->num = binary_operators.at(current->sign)(current->Prev->Prev->num,
-                                                    current->Prev->num);
+  current->num = calculation_functions.at(current->sign)(
+      current->Prev->Prev->num, current->Prev->num);
   current->sign = "null";
   current->priority = 0;
   // std::cout << "reza\n";
   // print_list();
 }
 
-void S21::calk::pop_this(S21::calk::Node *current) {
+void S21::calk::pop_this_cell(S21::calk::Node *current) {
   // std::cout << "pop << " << current->priority << "\n";
   Node *del = current;
   if (current->Next != 0) {
@@ -242,7 +245,7 @@ void S21::calk::push_back(
   ++Size;
 }
 
-void S21::calk::unary_corrector() {
+void S21::calk::handling_unary_operations() {
   Node *current = head->Next;
   if (current->priority == 2) {
     push_this_zero(current);
@@ -265,10 +268,8 @@ void S21::calk::push_this_zero(S21::calk::Node *current) {
   Node *temp = new Node(0, 0, "null");
   current->Prev->Next = temp;
   temp->Next = current;
-
   temp->Next->Prev = temp;
   temp->Prev = current->Prev;
-
   /*//
   Node *temp = current;
   if (current->Next != 0) {
@@ -277,21 +278,20 @@ void S21::calk::push_this_zero(S21::calk::Node *current) {
   } else {
     current->Prev->Next = nullptr;
   }
-
   --Size;*/
   ++Size;
 }
 
-double S21::calk::rezalt() {
+double S21::calk::example_calculation() {
   // std::cout << "KONSTRUKTIR\n";
   // print_list();
   //  degree_corrector();
-  unary_corrector();
+  handling_unary_operations();
   // print_list();
-  funk_up_priority();
+  bracket_to_up_priority();
   // std::cout << "UP Prioritu\n";
   // print_list();
-  in_polish();
+  in_polish_nation();
   // std::cout << "POLSKAIA\n";
   // print_list();
   calculation();
@@ -302,9 +302,8 @@ double S21::calk::rezalt() {
   return temp->num;
 }
 
-std::vector<double> S21::calk::rezalt_func(double end_x,
-                                           std::vector<double> *meaning_x,
-                                           int calculation_option) {
+std::vector<double> S21::calk::function_calculation(
+    double end_x, std::vector<double> *meaning_x, int calculation_option) {
   std::vector<double> v_rezalt;
   double x = 0;
   if (calculation_option == 0) {
@@ -319,16 +318,16 @@ std::vector<double> S21::calk::rezalt_func(double end_x,
       calk_temp.push_back(temp->priority, temp->num, temp->sign);
       temp = temp->Next;
     }
-    Node *temp_calk_temp = calk_temp.head;
-    while (temp_calk_temp->Next != nullptr) {
-      if (temp_calk_temp->sign.compare("x") == 0) {
-        temp_calk_temp->sign = "null";
-        temp_calk_temp->priority = 0;
-        temp_calk_temp->num = x;
+    Node *current_calk_temp = calk_temp.head;
+    while (current_calk_temp->Next != nullptr) {
+      if (current_calk_temp->sign.compare("x") == 0) {
+        current_calk_temp->sign = "null";
+        current_calk_temp->priority = 0;
+        current_calk_temp->num = x;
       }
-      temp_calk_temp = temp_calk_temp->Next;
+      current_calk_temp = current_calk_temp->Next;
     }
-    v_rezalt.push_back(calk_temp.rezalt());
+    v_rezalt.push_back(calk_temp.example_calculation());
     meaning_x->push_back(x);
     x = x + step(end_x);
   }
