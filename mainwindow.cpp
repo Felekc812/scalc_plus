@@ -172,7 +172,6 @@ void MainWindow::on_Button_funk_clicked() {
       new_label = (ui->lineEdit->text());
     }
     ui->lineEdit->setText(new_label);
-    // printf(">>>>>>>>%d \n", formula);
     if (formula != false) {
       if (ui->checkBox_3->isChecked()) {
         substitution_x(new_label);
@@ -185,7 +184,6 @@ void MainWindow::on_Button_funk_clicked() {
       ui->lineEdit_2->setText(QString::number(reza));
     }
   } else {
-    // printf(">>>>bracket>>>>%d \n", bracket);
     ui->lineEdit_2->setText("ошибка скобок");
   }
 }
@@ -193,12 +191,9 @@ void MainWindow::on_Button_funk_clicked() {
 void MainWindow::substitution_x(QString new_label) {
   std::vector<double> value_X;
   S21::Controller controller;
-  // printf("Счек бокс активен");
-  // formula = 0;
   double new_x = (ui->substitution->text().toDouble());
   std::vector<double> value_Y = controller.controller_formula(
       new_label.toStdString(), new_x, &value_X, 1);
-  // printf(">>>>>>>>>>%f\n",value_Y[0]);
   ui->lineEdit_2->setText(QString::number(value_Y[0]));
 }
 
@@ -206,12 +201,10 @@ void MainWindow::build_graph(QString new_label) {
   std::vector<double> value_X;
   S21::Controller controller;
   ui->widget->QCustomPlot ::clearGraphs();
-  //  double h, X;
   QVector<double> x, y;
   int mach_x = (ui->mach->text().toInt());
   ui->widget->xAxis->setRange(mach_x * -1, mach_x);
   ui->widget->yAxis->setRange(mach_x * -1, mach_x);
-  // std::vector<double> value_X;
   std::vector<double> value_Y = controller.controller_formula(
       new_label.toStdString(), mach_x, &value_X, 0);
   for (size_t i = 0; i < value_Y.size(); ++i) {

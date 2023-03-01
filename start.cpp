@@ -4,9 +4,6 @@ void S21::calk::clear_end_array(char *buf, size_t size_step,
                                 size_t size_step_m) {
   for (size_t i = 0; i < size_step - size_step_m; ++i) {
     buf[i] = buf[i + size_step_m];
-    // printf("buf %c  \n", buf[i]);
-    // printf("-  i %ld       i + size_step_m %ld     size_step %ld\n", i,
-    //      i + size_step_m, size_step);
   }
   for (size_t i = size_step - size_step_m; i < size_step; ++i) {
     buf[i] = 0;
@@ -45,7 +42,6 @@ void S21::calk::bracket_to_up_priority() {
   Node *current = head->Next;
   while (current != nullptr) {
     if (current->priority == 1) {
-      // printf("!!!!!");
       Node *temp = current->Next;
       if (current->sign.compare("(") == 0) {
         up_priority = up_priority + 10;
@@ -75,16 +71,11 @@ void S21::calk::in_polish_nation() {
                current->priority > buf_sig.push_back_priority()) {
       buf_sig.push_back(current->priority, current->num, current->sign);
     } else {
-      // printf("^^^   %d    %d  \n", buf_sig.push_back_priority(),
-      //      current->priority);
       while (buf_sig.push_back_priority() >= current->priority &&
              buf_sig.Size != 0) {
-        // printf("%d    %d  \n", buf_sig.push_back_priority(),
-        // current->priority);
         temp.push_back(buf_sig.push_back_priority(), 0,
                        buf_sig.push_back_sign());
         buf_sig.pop_back();
-        // printf("SIZE %d\n", buf_sig.Size);
       }
       buf_sig.push_back(current->priority, current->num, current->sign);
     }
@@ -98,10 +89,9 @@ void S21::calk::in_polish_nation() {
   array_copy_calk(temp);
 }
 
-void S21::calk::array_copy_calk(S21::calk temp) {  // temp.print_list();
+void S21::calk::array_copy_calk(S21::calk temp) {
   Node *previous_temp = temp.head;
   Node *previous_head = head;
-  // clear();
   for (int i = 0; i < temp.Size + 1; i++) {
     previous_head->priority = previous_temp->priority;
     previous_head->num = previous_temp->num;
@@ -109,12 +99,6 @@ void S21::calk::array_copy_calk(S21::calk temp) {  // temp.print_list();
     previous_head = previous_head->Next;
     previous_temp = previous_temp->Next;
   }
-  // print_list();
-  //
-  // printf("array_copy_calk+  %d  %d\n", Size, temp.Size);
-  //  temp.clear();
-  // printf("172 str  %d\n", temp.Size);
-  // printf("array_copy_calk\n");
   temp.Size = -1;
 }
 
@@ -134,41 +118,27 @@ void S21::calk::pop_front() {
 void S21::calk::calculation() {
   Node *current = head->Next;
   while (current->Next != nullptr) {
-    // std::cout << "*********************\n";
     if (current->priority >= current->Next->priority &&
         current->priority != 0) {
-      // std::cout << current->sign << "  " << current->Prev->Prev->num << "  "
-      //         << current->Prev->num << "\n";
       current->num = calculation_functions.at(current->sign)(
           current->Prev->Prev->num, current->Prev->num);
-
-      // std::cout << current->Prev->num << "\n";
       if (operation_priority.at(current->sign)() < 4 ||
           operation_priority.at(current->sign)() == 5) {
-        // std::cout << current->priority << current->sign <<
-        // "&&&&&&&&&&&&&\n";
         pop_this_cell(current->Prev->Prev);
       }
       pop_this_cell(current->Prev);
       current->priority = 0;
       current->sign = "null";
-      // print_list();
-      // current = current->Next;
     }
     current = current->Next;
   }
-  // std::cout << current->sign << "  " << current->Prev->Prev->num << "  "
-  //         << current->Prev->num << "\n";
   current->num = calculation_functions.at(current->sign)(
       current->Prev->Prev->num, current->Prev->num);
   current->sign = "null";
   current->priority = 0;
-  // std::cout << "reza\n";
-  // print_list();
 }
 
 void S21::calk::pop_this_cell(S21::calk::Node *current) {
-  // std::cout << "pop << " << current->priority << "\n";
   Node *del = current;
   if (current->Next != 0) {
     current->Prev->Next = current->Next;
@@ -191,7 +161,6 @@ void S21::calk::print_list() {
 */
 void S21::calk::clear() {
   while (Size + 1 > 0) {
-    // printf("cler  %d\n", Size);
     Node *temp = head;
     head = head->Next;
     if (head != nullptr) {
@@ -202,28 +171,15 @@ void S21::calk::clear() {
   }
 }
 
-void S21::calk::push_back(
-    int priority_pars, double num_pars,
-    std::string
-        sign_pars) {  // std::cout << priority_pars << "  priority_pars ";
-  // std::cout << num_pars << "  num_pars ";
-  // std::cout << sign_pars << "  sign_pars \n";
-
+void S21::calk::push_back(int priority_pars, double num_pars,
+                          std::string sign_pars) {
   head->priority = 1 + Size;
-  // if (head == nullptr) {
-  //   head = new Node(priority_pars, num_pars, sign_pars);
-  //   printf(">>>%d\n", head->priority);
-  // } else {
   Node *current = this->head;
   while (current->Next != nullptr) {
     current = current->Next;
   }
-  // printf(">>>%d   %f\n", priority_pars, num_pars);
   current->Next = new Node(priority_pars, num_pars, sign_pars);
-  // printf(">>>%d   %f   ", current->Next->priority, current->Next->num);
-  // std::cout << current->Next->sign << "  sign_pars \n\n";
   current->Next->Prev = current;
-  //}
   ++Size;
 }
 
@@ -232,53 +188,32 @@ void S21::calk::handling_unary_operations() {
   if (current->priority == 2) {
     push_this_zero(current);
     ++head->priority;
-    //  std::cout << "NULLL\n";
   }
   while (current->Next != nullptr) {
     if (current->sign.compare("(") == 0 && current->Next->priority == 2) {
       current = current->Next;
       push_this_zero(current);
       ++head->priority;
-      //   std::cout << "\nNULLL\n";
     }
     current = current->Next;
   }
 }
 
 void S21::calk::push_this_zero(S21::calk::Node *current) {
-  // std::cout << "NULLLLLLLLLLLLL\n";
   Node *temp = new Node(0, 0, "null");
   current->Prev->Next = temp;
   temp->Next = current;
   temp->Next->Prev = temp;
   temp->Prev = current->Prev;
-  /*//
-  Node *temp = current;
-  if (current->Next != 0) {
-    current->Prev->Next = current->Next;
-    current->Next->Prev = current->Prev;
-  } else {
-    current->Prev->Next = nullptr;
-  }
-  --Size;*/
   ++Size;
 }
 
 double S21::calk::example_calculation() {
-  std::cout << Size << "\n";
   Node *temp = head;
   if (Size > 1) {
-    // print_list();
-    // pop_back();
-    //  degree_corrector();
     handling_unary_operations();
-    // print_list();
     bracket_to_up_priority();
-    // std::cout << "UP Prioritu\n";
-    // print_list();
     in_polish_nation();
-    // std::cout << "POLSKAIA\n";
-    // print_list();
     calculation();
 
     while (temp->Next != nullptr) {
@@ -319,7 +254,6 @@ std::vector<double> S21::calk::function_calculation(
     meaning_x->push_back(x);
     x = x + step(end_x);
   }
-  // std::cout << meaning_x[1] << "  x \n";
   return v_rezalt;
 }
 
@@ -357,44 +291,24 @@ S21::calk::calk(std::string str) : calk() {
   static const std::string tokens[] = {
       "(",   ")",    "+",    "-",   "*",    "/",    "mod", "^",   "sin",
       "cos", "asin", "acos", "tan", "atan", "sqrt", "ln",  "log", "x"};
-  // int a = 0;
   while (size_step) {
     size_t size_step_m = 0;
     if (std::isdigit(*buf)) {
       sign_pars = "null";
       priority_pars = 0;
       num_pars = std::stof(buf, &size_step_m);
-      // std::cout << num_pars << " num \n";
-      // std::cout << size_step_m << "sx \n";
     } else {
       for (auto &t : tokens) {
         if (strncmp(buf, t.c_str(), t.size()) == 0) {
           num_pars = 0;
           size_step_m = t.size();
           priority_pars = operation_priority.at(t)();
-          // priority_pars = num_priority(t);
           sign_pars = t;
-          //  std::cout << sign_pars << "  znch \n";
         }
       }
     }
     push_back(priority_pars, num_pars, sign_pars);
     clear_end_array(buf, size_step, size_step_m);
-
-    // printf("size_step %ld      size_step_m %ld  \n", size_step,
-    // size_step_m);
-
     size_step = size_step - size_step_m;
-    // printf("----------------\n\n");
-    //  a++;
-    // pop_back();
   }
 }
-/*
-int main() {
-  S21::calk u1("9*8+6-cos5");
-  std::cout << u1.rezalt() << "  rezalt \n";
-
-  return 0;
-}
-*/
