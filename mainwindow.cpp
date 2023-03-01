@@ -3,11 +3,11 @@
 #include "ui_mainwindow.h"
 
 int bracket = 0;
-int flag = 1;
-int flag2 = 0;
-int flag_dot = 0;
-int flag_rend = 0;
-int formula = 0;
+bool prohibition_duplication_sign = true;
+bool prohibition_duplication_bracket = false;
+bool prohibition_duplication_dot = false;
+bool prohibition_duplication_equality = false;
+bool formula = false;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -54,133 +54,137 @@ MainWindow::~MainWindow() { delete ui; }
 void MainWindow::numbers() {
   QPushButton *button = (QPushButton *)sender();
   QString new_label;
-   if (flag2 == 0) {
-  new_label = (ui->lineEdit->text() + button->text());
-  ui->lineEdit->setText(new_label);
-  flag = 0;
+  if (prohibition_duplication_bracket == false) {
+    new_label = (ui->lineEdit->text() + button->text());
+    ui->lineEdit->setText(new_label);
+    prohibition_duplication_sign = false;
   }
 }
 
 void MainWindow::dot() {
   QPushButton *button = (QPushButton *)sender();
   QString new_label;
-  if (flag_dot == 0 && flag == 0) {
+  if (prohibition_duplication_dot == false &&
+      prohibition_duplication_sign == false) {
     new_label = (ui->lineEdit->text() + button->text());
     ui->lineEdit->setText(new_label);
-    flag = 1;
-    flag_dot = 1;
+    prohibition_duplication_sign = true;
+    prohibition_duplication_dot = true;
   }
 }
 
 void MainWindow::bracket_up() {
   QPushButton *button = (QPushButton *)sender();
   QString new_label;
-  if (flag_dot == 0 && flag ==1) {
+  if (prohibition_duplication_dot == false &&
+      prohibition_duplication_sign == true) {
     new_label = (ui->lineEdit->text() + button->text());
     ui->lineEdit->setText(new_label);
     ++bracket;
-    flag = 1;
+    prohibition_duplication_sign = true;
   }
 }
 
 void MainWindow::bracket_don() {
   QPushButton *button = (QPushButton *)sender();
   QString new_label;
-  if (flag_dot == 0 && flag == 0 && bracket > 0) {
+  if (prohibition_duplication_dot == false &&
+      prohibition_duplication_sign == false && bracket > 0) {
     new_label = (ui->lineEdit->text() + button->text());
     ui->lineEdit->setText(new_label);
     --bracket;
-     flag2 = 1;
+    prohibition_duplication_bracket = true;
   }
 }
 
 void MainWindow::actions() {
   QPushButton *button = (QPushButton *)sender();
   QString new_label;
-  if (flag == 0) {
+  if (prohibition_duplication_sign == false) {
     new_label = (ui->lineEdit->text() + button->text());
     ui->lineEdit->setText(new_label);
-    flag_dot = 0;
-    flag = 1;
-    flag2=0;
+    prohibition_duplication_dot = false;
+    prohibition_duplication_sign = true;
+    prohibition_duplication_bracket = false;
   }
 }
+
 void MainWindow::sum_razn() {
   QPushButton *button = (QPushButton *)sender();
   QString new_label;
-  if (flag == 0) {
+  if (prohibition_duplication_sign == false) {
     new_label = (ui->lineEdit->text() + button->text());
     ui->lineEdit->setText(new_label);
-    flag = 1;
-    flag_dot = 0;
+    prohibition_duplication_sign = true;
+    prohibition_duplication_dot = false;
   } else {
-    if (flag_dot == 0) {
+    if (prohibition_duplication_dot == false) {
       new_label = (ui->lineEdit->text() + "(" + button->text());
       ui->lineEdit->setText(new_label);
     }
     ++bracket;
   }
-  flag2=0;
+  prohibition_duplication_bracket = false;
 }
 
 void MainWindow::triganmetr() {
   QPushButton *button = (QPushButton *)sender();
   QString new_label;
-  if (flag_dot == 0 && flag == 1) {
+  if (prohibition_duplication_dot == false &&
+      prohibition_duplication_sign == true) {
     new_label = (ui->lineEdit->text() + button->text() + "(");
     ui->lineEdit->setText(new_label);
-    flag = 1;
+    prohibition_duplication_sign = true;
     ++bracket;
-    flag_dot = 0;
-    flag2=0;
+    prohibition_duplication_dot = false;
+    prohibition_duplication_bracket = false;
   }
 }
+
 void MainWindow::butten_x() {
   QPushButton *button = (QPushButton *)sender();
   QString new_label;
   new_label = (ui->lineEdit->text() + "(" + button->text() + ")");
   ui->lineEdit->setText(new_label);
-  flag = 0;
-  formula = 1;
+  prohibition_duplication_sign = false;
+  formula = true;
 }
 
 void MainWindow::on_Button_ac_clicked() {
   QString new_label;
   new_label = nullptr;
   ui->lineEdit->setText(new_label);
-  flag = 1;
-  flag_dot = 0;
-  flag_rend = 0;
-  flag2=0;
+  prohibition_duplication_sign = true;
+  prohibition_duplication_dot = false;
+  prohibition_duplication_equality = false;
+  prohibition_duplication_bracket = false;
 }
 
 void MainWindow::on_Button_funk_clicked() {
-  QString new_label=(ui->lineEdit->text());;
-  if(bracket ==0){
-  if (flag_rend == 0) {
-    new_label = (ui->lineEdit->text() +
-                 "");  ///////!!!!!!!!!!!!!!!!!!!!!! тут надо вернуть =
-    flag_rend = 1;
-  } else {
-    new_label = (ui->lineEdit->text());
-  }
-  ui->lineEdit->setText(new_label);
-  //printf(">>>>>>>>%d \n", formula);
-  if (formula != 0) {
-    if (ui->checkBox_3->isChecked()) {
-      substitution_x(new_label);
+  QString new_label = (ui->lineEdit->text());
+  if (bracket == false) {
+    if (prohibition_duplication_equality == false) {
+      new_label = (ui->lineEdit->text() + "=");
+      prohibition_duplication_equality = true;
     } else {
-      build_graph(new_label);
+      new_label = (ui->lineEdit->text());
     }
-  }
-  else {
-    S21::Controller control;
-    double reza = control.controller_calk(new_label.toStdString());
-    ui->lineEdit_2->setText(QString::number(reza));
-  }
+    ui->lineEdit->setText(new_label);
+    // printf(">>>>>>>>%d \n", formula);
+    if (formula != false) {
+      if (ui->checkBox_3->isChecked()) {
+        substitution_x(new_label);
+      } else {
+        build_graph(new_label);
+      }
+    } else {
+      S21::Controller control;
+      double reza = control.controller_calk(new_label.toStdString());
+      ui->lineEdit_2->setText(QString::number(reza));
+    }
   } else {
-      // printf(">>>>bracket>>>>%d \n", bracket);
-  ui->lineEdit_2->setText("ошибка");
+    // printf(">>>>bracket>>>>%d \n", bracket);
+    ui->lineEdit_2->setText("ошибка");
   }
 }
 

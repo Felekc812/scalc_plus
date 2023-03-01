@@ -269,6 +269,7 @@ double S21::calk::example_calculation() {
   Node *temp = head;
   if (Size > 1) {
     // print_list();
+    // pop_back();
     //  degree_corrector();
     handling_unary_operations();
     // print_list();
@@ -344,6 +345,7 @@ S21::calk::calk() {
 }
 
 S21::calk::calk(std::string str) : calk() {
+  str.pop_back();
   int priority_pars;
   double num_pars;
   std::string sign_pars;
@@ -383,6 +385,7 @@ S21::calk::calk(std::string str) : calk() {
     size_step = size_step - size_step_m;
     // printf("----------------\n\n");
     //  a++;
+    // pop_back();
   }
 }
 /*
