@@ -345,6 +345,8 @@ S21::calk::calk() {
 }
 
 S21::calk::calk(std::string str) : calk() {
+  char *loc = {"\0"};
+  loc = setlocale(LC_ALL, "en_US.UTF-8");
   str.pop_back();
   int priority_pars;
   double num_pars;

@@ -158,6 +158,8 @@ void MainWindow::on_Button_ac_clicked() {
   prohibition_duplication_dot = false;
   prohibition_duplication_equality = false;
   prohibition_duplication_bracket = false;
+  formula = false;
+  bracket = 0;
 }
 
 void MainWindow::on_Button_funk_clicked() {
@@ -184,7 +186,7 @@ void MainWindow::on_Button_funk_clicked() {
     }
   } else {
     // printf(">>>>bracket>>>>%d \n", bracket);
-    ui->lineEdit_2->setText("ошибка");
+    ui->lineEdit_2->setText("ошибка скобок");
   }
 }
 

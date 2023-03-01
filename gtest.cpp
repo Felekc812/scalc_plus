@@ -75,6 +75,13 @@ TEST(create_check_increased_complexity, test4) {
 }
 
 TEST(create_check_increased_complexity, test5) {
+  std::string str = "2.5+3.5=";
+  S21::Controller k;
+  double rezalt = k.controller_calk(str);
+  ASSERT_DOUBLE_EQ(rezalt, 6);
+}
+
+TEST(create_check_increased_complexity, test6) {
   std::string str = "2=";
   S21::Controller k;
   double rezalt = k.controller_calk(str);
