@@ -14,6 +14,15 @@
 namespace S21 {
 
 class calk {
+ public:
+  double example_calculation();
+  std::vector<double> function_calculation(double end_x,
+                                           std::vector<double> *meaning_x,
+                                           int calculation_option);
+  calk();
+  calk(std::string str);
+  ~calk() { clear(); };
+
  private:
   // template <typename T_Node>
   class Node {
@@ -50,7 +59,7 @@ class calk {
   void pop_front();
   void calculation();
   void pop_this_cell(Node *current);
-  void print_list();
+  // void print_list();
   void clear();
   void push_back(int priority_pars, double num_pars, std::string sign_pars);
   void handling_unary_operations();
@@ -86,35 +95,6 @@ class calk {
       {"asin", []() -> int { return 4; }}, {"acos", []() -> int { return 4; }},
       {"atan", []() -> int { return 4; }}, {"x", []() -> int { return 0; }},
   };
-  /*
-     void validator(std::string str) {
-       std::cout << str << "\n";
-     };
-
-   void recognition(){};
- */
-  /*
-   void degree_corrector() {
-     Node *current = head->Next->Next;
-     int cycle = 1;
-     while (current->Next != nullptr) {
-       //
-       if (current->priority == 9 && current->Prev->Prev->priority == 9) {
-         current->priority = current->priority - cycle;
-         --cycle;
-       }
-       current = current->Next;
-     }
-   }*/
-
- public:
-  double example_calculation();
-  std::vector<double> function_calculation(double end_x,
-                                           std::vector<double> *meaning_x,
-                                           int calculation_option);
-  calk();
-  calk(std::string str);
-  ~calk() { clear(); };
 };
 
 }  // namespace S21

@@ -2,13 +2,6 @@
 
 #include "ui_mainwindow.h"
 
-int bracket = 0;
-bool prohibition_duplication_sign = true;
-bool prohibition_duplication_bracket = false;
-bool prohibition_duplication_dot = false;
-bool prohibition_duplication_equality = false;
-bool formula = false;
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);

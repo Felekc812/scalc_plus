@@ -30,6 +30,13 @@ class MainWindow : public QMainWindow {
  private:
   Ui::MainWindow *ui;
 
+  int bracket = 0;
+  bool prohibition_duplication_sign = true;
+  bool prohibition_duplication_bracket = false;
+  bool prohibition_duplication_dot = false;
+  bool prohibition_duplication_equality = false;
+  bool formula = false;
+
  private slots:
   void numbers();
   void triganmetr();
