@@ -19,12 +19,12 @@ class calk {
   std::vector<double> function_calculation(double end_x,
                                            std::vector<double> *meaning_x,
                                            int calculation_option);
+
+  void сreating_calculated_array(std::string str);
   calk();
-  calk(std::string str);
-  ~calk() { clear(); };
+  ~calk() { clear_all(); };
 
  private:
-  // template <typename T_Node>
   class Node {
    public:
     Node *Next, *Prev;
@@ -59,8 +59,10 @@ class calk {
   void pop_front();
   void calculation();
   void pop_this_cell(Node *current);
-  // void print_list();
+  void print_list();
+  void clear_all();
   void clear();
+
   void push_back(int priority_pars, double num_pars, std::string sign_pars);
   void handling_unary_operations();
   void push_this_zero(Node *current);

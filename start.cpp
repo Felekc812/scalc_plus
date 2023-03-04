@@ -85,7 +85,7 @@ void S21::calk::in_polish_nation() {
     temp.push_back(buf_sig.push_back_priority(), 0, buf_sig.push_back_sign());
     buf_sig.pop_back();
   }
-  buf_sig.clear();
+  buf_sig.clear_all();
   array_copy_calk(temp);
 }
 
@@ -149,17 +149,17 @@ void S21::calk::pop_this_cell(S21::calk::Node *current) {
   delete del;
   --Size;
 }
-/*
+
 void S21::calk::print_list() {
   Node *current = head;
   while (current != nullptr) {
     printf("priir %d      num %f     ", current->priority, current->num);
-    // std::cout << current->sign << "  znch \n";
+    std::cout << current->sign << "  znch \n";
     current = current->Next;
   }
 }
-*/
-void S21::calk::clear() {
+
+void S21::calk::clear_all() {
   while (Size + 1 > 0) {
     Node *temp = head;
     head = head->Next;
@@ -168,6 +168,12 @@ void S21::calk::clear() {
     }
     delete temp;
     --Size;
+  }
+}
+
+void S21::calk::clear() {
+  while (Size > 0) {
+    pop_back();
   }
 }
 
@@ -250,6 +256,10 @@ std::vector<double> S21::calk::function_calculation(
       }
       current_calk_temp = current_calk_temp->Next;
     }
+
+    print_list();
+    std::cout << "------" << std::endl;
+
     v_rezalt.push_back(calk_temp.example_calculation());
     meaning_x->push_back(x);
     x = x + step(end_x);
@@ -278,9 +288,10 @@ S21::calk::calk() {
   head->Next = nullptr;
 }
 
-S21::calk::calk(std::string str) : calk() {
+void S21::calk::сreating_calculated_array(std::string str) {
   char *loc = {"\0"};
   loc = setlocale(LC_ALL, "en_US.UTF-8");
+  clear();
   str.pop_back();
   int priority_pars;
   double num_pars;

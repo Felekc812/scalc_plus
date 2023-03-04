@@ -2,8 +2,7 @@
 
 #include "ui_mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow) {
+MainWindow::MainWindow(S21::Controller *controller, QWidget *parent) : QMainWindow(parent), controller(controller), ui(new Ui::MainWindow) {
   ui->setupUi(this);
   connect(ui->Button_0, SIGNAL(clicked()), this, SLOT(numbers()));
   connect(ui->Button_1, SIGNAL(clicked()), this, SLOT(numbers()));
@@ -158,6 +157,7 @@ void MainWindow::on_Button_ac_clicked() {
 void MainWindow::on_Button_funk_clicked() {
   QString new_label = (ui->lineEdit->text());
   if (bracket == false) {
+      //prohibition_duplication_equality ==false
     if (prohibition_duplication_equality == false) {
       new_label = (ui->lineEdit->text() + "=");
       prohibition_duplication_equality = true;
@@ -167,38 +167,43 @@ void MainWindow::on_Button_funk_clicked() {
     ui->lineEdit->setText(new_label);
     if (formula != false) {
       if (ui->checkBox_3->isChecked()) {
-        substitution_x(new_label);
+          std::cout << "Расчет с подстановкой Х" << std::endl;
+          std::cout << new_label.toStdString() << std::endl;
+        substitution_x( new_label);
       } else {
-        build_graph(new_label);
+          std::cout << "Построение графика" << std::endl;
+        build_graph( new_label);
       }
     } else {
-      S21::Controller control;
-      double reza = control.controller_calk(new_label.toStdString());
+        std::cout << "Расчет примера" << std::endl;
+      double reza = controller->controller_calk( new_label.toStdString());
       ui->lineEdit_2->setText(QString::number(reza));
     }
   } else {
-    ui->lineEdit_2->setText("ошибка скобок");
+    ui->lineEdit_2->setText("ошибка ввода");
   }
 }
 
-void MainWindow::substitution_x(QString new_label) {
+void MainWindow::substitution_x( QString new_label) {
   std::vector<double> value_X;
-  S21::Controller controller;
+  //S21::Controller controller;
   double new_x = (ui->substitution->text().toDouble());
-  std::vector<double> value_Y = controller.controller_formula(
+  std::cout << "substitution " << new_label.toStdString() << std::endl;
+  std::cout <<"substitution " << new_x << std::endl;
+  std::vector<double> value_Y = controller->controller_formula(
       new_label.toStdString(), new_x, &value_X, 1);
   ui->lineEdit_2->setText(QString::number(value_Y[0]));
 }
 
 void MainWindow::build_graph(QString new_label) {
   std::vector<double> value_X;
-  S21::Controller controller;
+  //S21::Controller controller;
   ui->widget->QCustomPlot ::clearGraphs();
   QVector<double> x, y;
   int mach_x = (ui->mach->text().toInt());
   ui->widget->xAxis->setRange(mach_x * -1, mach_x);
   ui->widget->yAxis->setRange(mach_x * -1, mach_x);
-  std::vector<double> value_Y = controller.controller_formula(
+  std::vector<double> value_Y = controller->controller_formula(
       new_label.toStdString(), mach_x, &value_X, 0);
   for (size_t i = 0; i < value_Y.size(); ++i) {
     x.push_back(value_X[i]);

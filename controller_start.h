@@ -6,9 +6,10 @@ namespace S21 {
 
 class Controller {
  private:
-  calk *model;
+ calk *model;
 
  public:
+ Controller(calk *model ) :model(model){};
   double controller_calk(std::string str);
   std::vector<double> controller_formula(std::string str, int end_x,
                                          std::vector<double> *meaning_x,

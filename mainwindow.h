@@ -24,7 +24,8 @@ class MainWindow : public QMainWindow {
   Q_OBJECT
 
  public:
-  MainWindow(QWidget *parent = nullptr);
+    S21::Controller *controller;
+  MainWindow(S21::Controller *controller,QWidget *parent = nullptr);
   ~MainWindow();
 
  private:
