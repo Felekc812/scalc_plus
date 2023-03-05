@@ -270,12 +270,15 @@ std::vector<double> S21::calk::function_calculation(
 double S21::calk::step(int end_x) {
   double step_x = 0;
   if (end_x < 100 && end_x > 0) {
-    step_x = 0.1;
+    step_x = 1;
   } else if (end_x >= 100 && end_x < 1000) {
     step_x = 1;
-  } else if (end_x >= 1000 && end_x < 1000000) {
-    step_x = 100;
-  } else {
+  } else if (end_x >= 1000 && end_x < 100000) {
+    step_x = 1000;
+  } else if (end_x >= 100000 && end_x < 1000000) {
+      step_x = 100000;
+    }
+  else {
     step_x = 0;
   }
   return step_x;

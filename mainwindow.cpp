@@ -44,13 +44,20 @@ MainWindow::MainWindow(S21::Controller *controller, QWidget *parent) : QMainWind
 MainWindow::~MainWindow() { delete ui; }
 
 void MainWindow::numbers() {
-  QPushButton *button = (QPushButton *)sender();
+   QPushButton *button = (QPushButton *)sender();
+    if (ui->checkBox_3->isChecked()) {
+        QString temp_line;
+        temp_line = (ui->substitution->text() + button->text());
+        ui->substitution->setText(temp_line);
+    }
+    else {
   QString new_label;
   if (prohibition_duplication_bracket == false) {
     new_label = (ui->lineEdit->text() + button->text());
     ui->lineEdit->setText(new_label);
     prohibition_duplication_sign = false;
   }
+    }
 }
 
 void MainWindow::dot() {
@@ -146,6 +153,8 @@ void MainWindow::on_Button_ac_clicked() {
   QString new_label;
   new_label = nullptr;
   ui->lineEdit->setText(new_label);
+   ui->lineEdit_2->setText(new_label);
+    ui->substitution->setText(new_label);
   prohibition_duplication_sign = true;
   prohibition_duplication_dot = false;
   prohibition_duplication_equality = false;
@@ -220,3 +229,9 @@ void MainWindow::build_graph(QString new_label) {
   ui->widget->replot();
   ui->lineEdit_2->setText("formula");
 }
+
+void MainWindow::on_horizontalScrollBar_valueChanged(int value)
+{
+     ui->mach->setText(QString::number(value));
+}
+

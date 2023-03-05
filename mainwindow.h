@@ -52,7 +52,9 @@ class MainWindow : public QMainWindow {
   void sum_razn();
   void butten_x();
 
- signals:
+  void on_horizontalScrollBar_valueChanged(int value);
+
+signals:
   void signal();
 };
 #endif  // MAINWINDOW_H
